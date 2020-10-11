@@ -14,7 +14,7 @@ public static class BetterConsole
 	private static int WriteHeight { get { return Height - WriteTop; } }
 	private static int WriteWidth { get { return Width; } }
 
-	private static Point Position
+	public static Point Position
 	{
 		get { return new Point(Console.CursorLeft, Console.CursorTop); }
 		set

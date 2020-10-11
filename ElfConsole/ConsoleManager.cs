@@ -1,10 +1,12 @@
 using System;
 using System.IO;
-using System.Collections.Generic; //for dictionary
+using System.Collections.Generic;
 using System.Runtime.InteropServices; //for P/Invoke DLLImport
 
 public static class ConsoleManager
 {
+	public static ConsoleHeader Header = new ConsoleHeader();
+
 	/// <summary>
 	/// Contains native methods imported as unmanaged code.
 	/// </summary>
@@ -36,15 +38,11 @@ public static class ConsoleManager
 	}
 
 	public static void Redraw() { }
-	public static void SetTitle(int day, string title, int part)
-	{
-		var line = new String('═', BetterConsole.Width - 2);
-		var titleText = $"║  Day {day}: {title} - Part {part}";
 
-		BetterConsole.WriteAt($"╔{line}╗", 0);
-		BetterConsole.WriteAt(titleText, 1);
-		BetterConsole.WriteAt("║", BetterConsole.Width - 1, 1);
-		BetterConsole.WriteAt($"╚{line}╝", 2);
+
+	public static void Write(string text)
+	{
+
 	}
 
 

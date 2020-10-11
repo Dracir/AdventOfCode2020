@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public class Point
+public struct Point
 {
 	public int X;
 	public int Y;
