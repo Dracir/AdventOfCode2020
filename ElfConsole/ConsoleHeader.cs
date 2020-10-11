@@ -38,7 +38,7 @@ public class ConsoleHeader
 		}
 	}
 
-	public HeaderValue CreateHeaderValue(int valueWidth, string title)
+	public HeaderValue CreateHeaderValue(int valueWidth, string title, string? format = null)
 	{
 		var consolePositionBefore = BetterConsole.Position;
 		var totalWidth = valueWidth + title.Length;
@@ -51,7 +51,7 @@ public class ConsoleHeader
 		if (CurrentHeaderPointer.X + totalWidth > BetterConsole.Width)
 			CurrentHeaderPointer = new Point(0, CurrentHeaderPointer.Y + 1);
 		BetterConsole.WriteAt(prepend + title, CurrentHeaderPointer.X, CurrentHeaderPointer.Y);
-		var headerValue = new HeaderValue(new Point(CurrentHeaderPointer.X + title.Length, CurrentHeaderPointer.Y), valueWidth);
+		var headerValue = new HeaderValue(new Point(CurrentHeaderPointer.X + title.Length, CurrentHeaderPointer.Y), valueWidth, format);
 
 		CurrentHeaderPointer = new Point(CurrentHeaderPointer.X + totalWidth, CurrentHeaderPointer.Y);
 		BetterConsole.Position = consolePositionBefore;
