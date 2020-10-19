@@ -1,3 +1,5 @@
 - Multicore-thread working preview with bars, X yen done. % task done
 - Bring back my task pool thing
 - Set reserved information lines (pour montrer des avencemenet, des moyennes de qlqq chose), pis les writelines vont en dessous
+	- Point, included expected min/max for reserved string space
+- Infinit extensible Grid and negative index able Grid

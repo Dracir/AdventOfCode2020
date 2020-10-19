@@ -38,7 +38,7 @@ public class ConsoleHeader
 		}
 	}
 
-	public HeaderValue CreateHeaderValue(int valueWidth, string title, string? format = null)
+	private HeaderValue CreateValue(int valueWidth, string title, Func<Point, HeaderValue> createHeader)
 	{
 		var consolePositionBefore = BetterConsole.Position;
 		var totalWidth = valueWidth + title.Length;
@@ -51,11 +51,25 @@ public class ConsoleHeader
 		if (CurrentHeaderPointer.X + totalWidth > BetterConsole.Width)
 			CurrentHeaderPointer = new Point(0, CurrentHeaderPointer.Y + 1);
 		BetterConsole.WriteAt(prepend + title, CurrentHeaderPointer.X, CurrentHeaderPointer.Y);
-		var headerValue = new HeaderValue(new Point(CurrentHeaderPointer.X + title.Length, CurrentHeaderPointer.Y), valueWidth, format);
+
+		var p = new Point(CurrentHeaderPointer.X + title.Length, CurrentHeaderPointer.Y);
+		var headerValue = createHeader(p);
 
 		CurrentHeaderPointer = new Point(CurrentHeaderPointer.X + totalWidth, CurrentHeaderPointer.Y);
 		BetterConsole.Position = consolePositionBefore;
 
 		return headerValue;
+	}
+
+	public HeaderValue CreateFormatedValue(int valueWidth, string title, string? format = null)
+	{
+		return CreateValue(valueWidth, title,
+		(position) => new FormatedHeaderValue(position, valueWidth, format));
+	}
+
+	public HeaderValue CreateBlockValue(int valueWidth, string title, ValueToUTFBars.Styles style)
+	{
+		return CreateValue(valueWidth, title,
+		(position) => new BlockFillBar(position, valueWidth, style));
 	}
 }

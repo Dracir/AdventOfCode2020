@@ -99,7 +99,7 @@ public static class InputParser
 	public class TreeNode
 	{
 		public string Name;
-		public TreeNode Parent;
+		public TreeNode? Parent;
 		public List<TreeNode> Children = new List<TreeNode>();
 
 		public TreeNode(string name)

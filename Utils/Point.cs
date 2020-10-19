@@ -27,21 +27,13 @@ public struct Point
 		return Math.Abs(X - p2.X + Y - p2.Y);
 	}
 
-
-	public override bool Equals(object obj)
+	public override bool Equals(object? obj)
 	{
-		if (obj == null || GetType() != obj.GetType())
-		{
-			return false;
-		}
-
-		var other = (Point)obj;
-		return other.X == X && other.Y == Y;
+		return obj is Point other &&
+			   other.X == X && other.Y == Y;
 	}
 
-	// override object.GetHashCode
-	public override int GetHashCode()
-	{
-		return base.GetHashCode();
-	}
+	public override int GetHashCode() => HashCode.Combine(X, Y);
+
+
 }
