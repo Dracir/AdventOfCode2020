@@ -4,14 +4,13 @@
 	// For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
 	"version": "0.2.0",
 	"configurations": [
-		
 		{
 			"name": ".NET Core Launch (console)",
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
 			// If you have changed target frameworks, make sure to update the program path.
-			"program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/AoC2020.dll",
+			"program": "${workspaceFolder}/AoCSolver2020/bin/Debug/netcoreapp3.1/AoCSolver2020.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}",
 			// For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -24,6 +23,17 @@
 			"type": "coreclr",
 			"request": "attach",
 			"processId": "${command:pickProcess}"
-		}
+		},
+		{
+			"name": "Tests",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "buildTests",
+			"program": "${workspaceFolder}/Tests/bin/Debug/netcoreapp3.1/Tests.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"stopAtEntry": false
+		},
 	]
 }

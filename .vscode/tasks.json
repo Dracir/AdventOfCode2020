@@ -2,16 +2,24 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "CopyInputs",
+			"command": "xcopy ${workspaceFolder}\\DaysInput ${workspaceFolder}\\Tests\\bin\\Debug\\netcoreapp3.1\\DaysInput /E /I /y",
+			"type": "shell"
+		},
+		{
 			"label": "build",
 			"command": "dotnet",
 			"type": "process",
 			"args": [
 				"build",
-				"${workspaceFolder}/AoC2020.csproj",
+				"${workspaceFolder}/AoCSolver2020/AoCSolver2020.csproj",
 				"/property:GenerateFullPaths=true",
 				"/consoleloggerparameters:NoSummary"
 			],
-			"problemMatcher": "$msCompile"
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"CopyInputs"
+			]
 		},
 		{
 			"label": "publish",
@@ -19,7 +27,7 @@
 			"type": "process",
 			"args": [
 				"publish",
-				"${workspaceFolder}/AoC2020.csproj",
+				"${workspaceFolder}/AoCSolver2020/AoCSolver2020.csproj",
 				"/property:GenerateFullPaths=true",
 				"/consoleloggerparameters:NoSummary"
 			],
@@ -32,11 +40,23 @@
 			"args": [
 				"watch",
 				"run",
-				"${workspaceFolder}/AoC2020.csproj",
+				"${workspaceFolder}/AoCSolver2020/AoCSolver2020.csproj",
 				"/property:GenerateFullPaths=true",
 				"/consoleloggerparameters:NoSummary"
 			],
 			"problemMatcher": "$msCompile"
-		}
+		},
+		{
+			"label": "RunTest",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"test",
+				"${workspaceFolder}/Tests/AoCSolver2020/Tests.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"problemMatcher": "$msCompile"
+		},
 	]
 }
