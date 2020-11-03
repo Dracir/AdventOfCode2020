@@ -5,15 +5,17 @@ using System.Collections.Generic;
 public class ConsoleHeader
 {
 	private static int ReservedLineStart = 3;
-	private int ReservedLines;
 	private Point CurrentHeaderPointer;
+
+	private int _reservedLines;
+	public int ReservedLines => _reservedLines;
 
 
 	public void SetTitle(int day, string title, int part)
 	{
 		Console.ForegroundColor = ConsoleManager.Skin.FramesColor;
 		var line = new String('═', BetterConsole.Width - 2);
-		var titleText = $"  Day {day}: {title} - Part {part}";
+		var titleText = $"  Day {day}: {title} - Part {part}".PadRight(BetterConsole.Width - 2);
 
 		Console.ForegroundColor = ConsoleManager.Skin.FramesColor;
 		BetterConsole.WriteAt($"╔{line}╗", 0);
@@ -31,13 +33,14 @@ public class ConsoleHeader
 	public void ReserveLines(int reserveLines)
 	{
 		CurrentHeaderPointer = new Point(0, ReservedLineStart);
-		ReservedLines = reserveLines;
 		if (reserveLines == 0)
 		{
+			_reservedLines = 3;
 			BetterConsole.Position = new Point(0, ReservedLineStart + reserveLines);
 		}
 		else
 		{
+			_reservedLines = reserveLines + 5;
 			BetterConsole.Position = new Point(0, ReservedLineStart + reserveLines + 1);
 			var line = new String('═', BetterConsole.Width);
 			Console.ForegroundColor = ConsoleManager.Skin.FramesColor;

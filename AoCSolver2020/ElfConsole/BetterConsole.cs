@@ -23,6 +23,15 @@ public static class BetterConsole
 			Console.CursorTop = Math.Clamp(value.Y, 0, Bottom);
 		}
 	}
+
+	public static ConsoleColor ForegroundColor
+	{
+		get => Console.ForegroundColor;
+		set => Console.ForegroundColor = value;
+	}
+
+	public static void ResetColor() => Console.ResetColor();
+
 	public static void WriteAt(string value, int line) => WriteAt(value, 0, line);
 
 	public static void WriteAt(string value, int x, int y)

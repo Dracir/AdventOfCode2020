@@ -28,6 +28,6 @@ public static class DaysInputs
 	public static string D24 => ReadInput(24);
 	public static string D25 => ReadInput(25);
 
-	private static string ReadInput(int day) => File.ReadAllText($"DaysInput/Day{day}.txt");
+	public static string ReadInput(int day) => File.ReadAllText($"DaysInput/Day{day}.txt");
 
 }

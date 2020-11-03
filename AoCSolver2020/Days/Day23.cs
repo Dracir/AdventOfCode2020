@@ -7,10 +7,15 @@ using System.Linq;
 public class Day23 : DayBase
 {
 
+	//-----------------------------------------------------------------
+
+	public override void SetUpConsolePart1()
+	{
+	}
 	
 	//-----------------------------------------------------------------
 
-	public override void SetUp()
+	public override void SetUpConsolePart2()
 	{
 	}
 

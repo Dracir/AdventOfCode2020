@@ -12,10 +12,15 @@ using System.Linq;
 public class Day{DayX} : DayBase
 {
 
+	//-----------------------------------------------------------------
+
+	public override void SetUpConsolePart1()
+	{
+	}
 	
 	//-----------------------------------------------------------------
 
-	public override void SetUp()
+	public override void SetUpConsolePart2()
 	{
 	}
 

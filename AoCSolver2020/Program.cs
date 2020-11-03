@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Threading;
+using Console = ConsoleManager;
 
 namespace AoC2020
 {
 	class Program
 	{
-		static Random RandomGen = new Random();
+
+		private static int _currentDay = 0;
+		private static int _currentPart = 1;
+		private static DayBase[] _days = new DayBase[26];
+
 		static void Main(string[] args)
 		{
 			//YearFileCreator.CreateYear();
@@ -15,46 +20,103 @@ namespace AoC2020
 		private static void TestConsole()
 		{
 			ConsoleManager.SetFullScreen();
-			ConsoleManager.Header.SetTitle(1, "Cryostasis", 1);
-			ConsoleManager.Header.ReserveLines(2);
-			var itteration = ConsoleManager.Header.CreateFormatedValue(5, "Itteration: ");
 
-			Console.WriteLine("Hello World");
-			itteration.SetValue(10);
-			var aFloat = ConsoleManager.Header.CreateFormatedValue(6, "Float: ");
-			var aFormatedFloat = ConsoleManager.Header.CreateFormatedValue(6, "Formated Float: ", "F3");
+			_days[_currentDay] = NewDay(_currentDay);
+			UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
 
-			var percent1 = ConsoleManager.Header.CreateFormatedValue(6, "Percent: ");
-			var percent2 = ConsoleManager.Header.CreateBlockValue(2, "Percent: ", ValueToUTFBars.Styles.Horizontal);
-			var percent3 = ConsoleManager.Header.CreateBlockValue(5, "Percent: ", ValueToUTFBars.Styles.Vertical);
-			var percent4 = ConsoleManager.Header.CreateBlockValue(10, "Percent: ", ValueToUTFBars.Styles.Shades);
-			var percent5 = ConsoleManager.Header.CreateBlockValue(15, "Percent: ", ValueToUTFBars.Styles.Circle);
-			var percent6 = ConsoleManager.Header.CreateBlockValue(1, "Percent: ", ValueToUTFBars.Styles.CenteredVerticalBar);
-
-			Console.WriteLine("▃ ╭ ▟ ╈");
-			Console.WriteLine(DaysInputs.D1);
-			;
-
-			for (int i = 0; i < 10; i++)
+			do
 			{
-				Thread.Sleep(1000);
-				itteration.SetValue(i);
-				var f = (float)RandomGen.NextDouble();
-				aFloat.SetValue(f);
-				aFormatedFloat.SetValue(f);
-				Console.WriteLine("Itteration " + i);
-
-
-				var percent = i * 1f / 9f;
-				percent1.SetValue(percent);
-				percent2.SetValue(percent);
-				percent3.SetValue(percent);
-				percent4.SetValue(percent);
-				percent5.SetValue(percent);
-				percent6.SetValue(percent);
+				Console.WriteLineAt("[←]Previous  [→]Next  [↩]Run  [1]Part 1  [2]Part 2  [ESC]Quit", Console.Height - 1);
+				var userInput = Console.ReadKey();
+				if (userInput.Key == ConsoleKey.D1)
+				{
+					_currentPart = 1;
+					UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
+				}
+				else if (userInput.Key == ConsoleKey.D2)
+				{
+					_currentPart = 2;
+					UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
+				}
+				else if (userInput.Key == ConsoleKey.RightArrow)
+				{
+					_currentDay++;
+					if (_currentDay > 25) _currentDay = 0;
+					_days[_currentDay] = NewDay(_currentDay);
+					UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
+				}
+				else if (userInput.Key == ConsoleKey.LeftArrow)
+				{
+					_currentDay--;
+					if (_currentDay < 0) _currentDay = 25;
+					_days[_currentDay] = NewDay(_currentDay);
+					UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
+				}
+				else if (userInput.Key == ConsoleKey.Enter)
+				{
+					UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
+					StartDay(_currentDay);
+				}
+				else if (userInput.Key == ConsoleKey.Escape)
+				{
+					break;
+				}
 			}
+			while (true);
 
-			Console.Read();
+		}
+
+		private static DayBase NewDay(int currentDay) => currentDay switch
+		{
+			1 => new Day1(),
+			2 => new Day2(),
+			3 => new Day3(),
+			4 => new Day4(),
+			5 => new Day5(),
+			6 => new Day6(),
+			7 => new Day7(),
+			8 => new Day8(),
+			9 => new Day9(),
+			10 => new Day10(),
+			11 => new Day11(),
+			12 => new Day12(),
+			13 => new Day13(),
+			14 => new Day14(),
+			15 => new Day15(),
+			16 => new Day16(),
+			17 => new Day17(),
+			18 => new Day18(),
+			19 => new Day19(),
+			20 => new Day20(),
+			21 => new Day21(),
+			22 => new Day22(),
+			23 => new Day23(),
+			24 => new Day24(),
+			25 => new Day25(),
+			_ => new TestDay()
+		};
+
+		private static void UpdateHeader(int day, DayBase dayBase, int part)
+		{
+			Console.Clear();
+			if (part == 1)
+				dayBase.SetUpConsolePart1();
+			else
+				dayBase.SetUpConsolePart2();
+
+			ConsoleManager.Header.SetTitle(day, DaysTitles.GetDayTitle(day), part);
+			ConsoleManager.Refresh();
+		}
+
+		private static void StartDay(int currentDay)
+		{
+			var answer = 0L;
+			if (_currentPart == 1)
+				answer = _days[currentDay].Part1(DaysInputs.ReadInput(currentDay));
+			else
+				answer = _days[currentDay].Part2(DaysInputs.ReadInput(currentDay));
+
+			BetterConsole.WriteAt($"Answer : {answer}", BetterConsole.Height - 2);
 		}
 	}
 }

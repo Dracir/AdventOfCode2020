@@ -3,3 +3,5 @@
 - Set reserved information lines (pour montrer des avencemenet, des moyennes de qlqq chose), pis les writelines vont en dessous
 	- Point, included expected min/max for reserved string space
 - Infinit extensible Grid and negative index able Grid
+- Grid preview with movement and minimap, size, info etc.
+- Histogram

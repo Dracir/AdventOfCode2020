@@ -1,50 +1,33 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Runtime.InteropServices; //for P/Invoke DLLImport
 
 public static class ConsoleManager
 {
 	public static ConsoleHeader Header = new ConsoleHeader();
-	public static ConsoleSkin Skin =  new ConsoleSkin();
+	private static ConsoleCenter Center = new ConsoleCenter();
+	private static int FooterHeight = 2;
+	public static ConsoleSkin Skin = new ConsoleSkin();
 
-	/// <summary>
-	/// Contains native methods imported as unmanaged code.
-	/// </summary>
-	internal static class DllImports
+
+	public static void WriteLineAt(string text, int line) => BetterConsole.WriteAt(text, line);
+
+	public static int Height => BetterConsole.Height;
+	public static ConsoleKeyInfo ReadKey() => Console.ReadKey();
+
+	public static void SetFullScreen() => ConsoleUtils.SetFullScreen();
+
+	public static void Refresh()
 	{
-		[DllImport("kernel32.dll", ExactSpelling = true)]
-		internal static extern IntPtr GetConsoleWindow();
-		internal static IntPtr ThisConsole = GetConsoleWindow();
-		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-		internal const int HIDE = 0;
-		internal const int MAXIMIZE = 3;
-		internal const int MINIMIZE = 6;
-		internal const int RESTORE = 9;
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern bool SetConsoleOutputCP(uint wCodePageID);
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern bool SetConsoleCP(uint wCodePageID);
-	}
-
-	public static void SetFullScreen()
-	{
-		DllImports.SetConsoleOutputCP(65001);
-		DllImports.SetConsoleCP(65001);
-		Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-		DllImports.ShowWindow(DllImports.ThisConsole, DllImports.MAXIMIZE);
-	}
-
-	public static void Redraw() { }
-
-
-	public static void Write(string text)
-	{
-
+		var lines = BetterConsole.Height - Header.ReservedLines - FooterHeight;
+		Center.Reset(lines, Header.ReservedLines - 1);
 	}
 
 
+	public static void WriteLine(string text) => Center.WriteLine(text);
+
+	public static void Clear()
+	{
+		Console.Clear();
+	}
 }
