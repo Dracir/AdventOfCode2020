@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public static class ConsoleManager
 {
+	static ConsoleManager()
+	{
+		Console.WriteLine("ConsoleManager");
+	}
+
 	public static ConsoleHeader Header = new ConsoleHeader();
 	private static ConsoleCenter Center = new ConsoleCenter();
 	private static int FooterHeight = 2;

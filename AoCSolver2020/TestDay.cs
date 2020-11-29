@@ -24,7 +24,7 @@ public class TestDay : DayBase
 
 	public override void SetUpConsolePart1()
 	{
-		Console.Header.ReserveLines(2);
+		Console.Header.ReserveLines(10);
 		_itteration = Console.Header.CreateFormatedValue(5, "Itteration: ");
 
 		_itteration.SetValue(10);

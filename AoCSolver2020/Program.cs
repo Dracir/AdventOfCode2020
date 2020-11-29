@@ -19,7 +19,7 @@ namespace AoC2020
 
 		private static void TestConsole()
 		{
-			ConsoleManager.SetFullScreen();
+			Console.SetFullScreen();
 
 			_days[_currentDay] = NewDay(_currentDay);
 			UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
