@@ -2,11 +2,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "CopyInputs",
-			"command": "xcopy ${workspaceFolder}\\DaysInput ${workspaceFolder}\\Tests\\bin\\Debug\\netcoreapp3.1\\DaysInput /E /I /y",
-			"type": "shell"
-		},
-		{
 			"label": "build",
 			"command": "dotnet",
 			"type": "process",
@@ -17,9 +12,6 @@
 				"/consoleloggerparameters:NoSummary"
 			],
 			"problemMatcher": "$msCompile",
-			"dependsOn": [
-				"CopyInputs"
-			]
 		},
 		{
 			"label": "publish",

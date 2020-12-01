@@ -1,6 +1,6 @@
 public static class DaysTitles
 {
-	public static string Day1 => "";
+	public static string Day1 => "Report Repair";
 	public static string Day2 => "";
 	public static string Day3 => "";
 	public static string Day4 => "";

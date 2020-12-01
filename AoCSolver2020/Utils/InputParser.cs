@@ -5,7 +5,13 @@ using System;
 
 public static class InputParser
 {
-	public static int[] ListOfInts(string input) => input.Split('\n').Select(x => int.Parse(x)).ToArray();
+	public static int[] ListOfInts(string input)
+	{
+		if (input.Contains("\n"))
+			return ListOfInts(input, '\n');
+		else
+			return ListOfInts(input, ',');
+	}
 
 	public static int[] ListOfDigitNoSeparator(string input) => input.Select(x => int.Parse(x.ToString())).ToArray();
 	public static int[] ListOfInts(string input, char separator) => input.Split(separator).Select(x => int.Parse(x)).ToArray();

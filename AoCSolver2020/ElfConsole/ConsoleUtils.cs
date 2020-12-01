@@ -28,8 +28,8 @@ public static class ConsoleUtils
 
 	public static void SetFullScreen()
 	{
-		DllImports.SetConsoleOutputCP(65001);
-		DllImports.SetConsoleCP(65001);
+		//DllImports.SetConsoleOutputCP(65001);
+		//DllImports.SetConsoleCP(65001);
 		Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 		DllImports.ShowWindow(DllImports.ThisConsole, DllImports.MAXIMIZE);
 	}
