@@ -9,7 +9,7 @@ namespace AoC2020
 	{
 
 		private static int _currentDay = 1;
-		private static int _currentPart = 1;
+		private static int _currentPart = 2;
 		private static DayBase[] _days = new DayBase[26];
 
 		static void Main(string[] args)
@@ -112,6 +112,7 @@ namespace AoC2020
 		private static void StartDay(int currentDay)
 		{
 			var stopwatch = new Stopwatch();
+			stopwatch.Reset();
 			stopwatch.Start();
 			var answer = 0L;
 			if (_currentPart == 1)
@@ -120,7 +121,10 @@ namespace AoC2020
 				answer = _days[currentDay].Part2(DaysInputs.ReadInput(currentDay));
 			stopwatch.Stop();
 
-			BetterConsole.WriteAt($"Time : {stopwatch.Elapsed.ToString()}", BetterConsole.Height - 3);
+			if (stopwatch.ElapsedMilliseconds < 100)
+				BetterConsole.WriteAt($"Time : {stopwatch.ElapsedMilliseconds}ms ({stopwatch.Elapsed.ToString()})", BetterConsole.Height - 3);
+			else
+				BetterConsole.WriteAt($"Time : {stopwatch.Elapsed.ToString()}", BetterConsole.Height - 3);
 			BetterConsole.WriteAt($"Answer : {answer}", BetterConsole.Height - 2);
 		}
 	}
