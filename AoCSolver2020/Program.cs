@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using Console = ConsoleManager;
 
@@ -14,10 +15,10 @@ namespace AoC2020
 		static void Main(string[] args)
 		{
 			//YearFileCreator.CreateYear();
-			TestConsole();
+			RunSuperConsole();
 		}
 
-		private static void TestConsole()
+		private static void RunSuperConsole()
 		{
 			Console.SetFullScreen();
 
@@ -110,12 +111,16 @@ namespace AoC2020
 
 		private static void StartDay(int currentDay)
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
 			var answer = 0L;
 			if (_currentPart == 1)
 				answer = _days[currentDay].Part1(DaysInputs.ReadInput(currentDay));
 			else
 				answer = _days[currentDay].Part2(DaysInputs.ReadInput(currentDay));
+			stopwatch.Stop();
 
+			BetterConsole.WriteAt($"Time : {stopwatch.Elapsed.ToString()}", BetterConsole.Height - 3);
 			BetterConsole.WriteAt($"Answer : {answer}", BetterConsole.Height - 2);
 		}
 	}

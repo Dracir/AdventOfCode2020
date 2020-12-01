@@ -11,7 +11,7 @@ public static class ConsoleManager
 
 	public static ConsoleHeader Header = new ConsoleHeader();
 	private static ConsoleCenter Center = new ConsoleCenter();
-	private static int FooterHeight = 2;
+	private static int FooterHeight = 3;
 	public static ConsoleSkin Skin = new ConsoleSkin();
 
 
