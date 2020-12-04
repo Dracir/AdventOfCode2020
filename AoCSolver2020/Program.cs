@@ -9,7 +9,7 @@ namespace AoC2020
 	{
 
 		private static int _currentDay = 3;
-		private static int _currentPart = 1;
+		private static int _currentPart = 2;
 		private static DayBase[] _days = new DayBase[26];
 
 		static void Main(string[] args)
