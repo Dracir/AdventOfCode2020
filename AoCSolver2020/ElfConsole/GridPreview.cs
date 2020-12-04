@@ -4,14 +4,56 @@ using System.Collections.Generic;
 
 public class GridPreview<T>
 {
-
-	private IGrid<T> _grid;
+	public RectInt Viewport;
+	public IGrid<T>? Grid;
 	private Func<T, char> _getTilePreview;
+	public Func<T, ConsoleColor>? GetTileColor;
+	public char EmptyChar = ' ';
+	public Point Offset;
 
-	public GridPreview(IGrid<T> grid, Func<T, char> getTilePreview)
+	private int GridUsedWidth => Grid == null ? 0 : Grid.UsedWidth;
+	private int GridUsedHeight => Grid == null ? 0 : Grid.UsedHeight;
+
+	private int GridPreviewWidth => Math.Min(GridUsedWidth, Viewport.Width);
+	private int GridPreviewHeight => Math.Min(GridUsedHeight, Viewport.Height);
+
+	public GridPreview(Func<T, char> getTilePreview, RectInt viewport)
 	{
-		_grid = grid;
 		_getTilePreview = getTilePreview;
+		Viewport = viewport;
 	}
 
+	public void Update()
+	{
+		var p = BetterConsole.Position;
+		Console.ForegroundColor = ConsoleManager.Skin.HeaderValueColor;
+
+		if (Grid != null)
+			for (int y = 0; y < GridPreviewHeight; y++)
+			{
+				if (GetTileColor == null)
+				{
+
+					var line = "";
+					for (int x = 0; x < GridPreviewWidth; x++)
+					{
+						line += Grid[x + Offset.X, y + Offset.Y];
+					}
+					BetterConsole.WriteAt(line, Viewport.X, y + Viewport.Y);
+				}
+				else
+				{
+					for (int x = 0; x < GridPreviewWidth; x++)
+					{
+						var tile = Grid[x + Offset.X, y + Offset.Y];
+						Console.ForegroundColor = GetTileColor(tile);
+						BetterConsole.WriteAt(tile + "", x + Viewport.X, y + Viewport.Y);
+					}
+				}
+			}
+
+		Console.ResetColor();
+
+		BetterConsole.Position = p;
+	}
 }

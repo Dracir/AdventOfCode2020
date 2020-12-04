@@ -2,7 +2,7 @@ public static class DaysTitles
 {
 	public static string Day1 => "Report Repair";
 	public static string Day2 => "Password Philosophy";
-	public static string Day3 => "";
+	public static string Day3 => "Toboggan Trajectory";
 	public static string Day4 => "";
 	public static string Day5 => "";
 	public static string Day6 => "";

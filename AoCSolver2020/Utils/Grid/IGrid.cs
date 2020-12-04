@@ -3,12 +3,18 @@ using System.Collections.Generic;
 
 public interface IGrid<T>
 {
+	int UsedMinX { get; }
+	int UsedMinY { get; }
+	int UsedMaxX { get; }
+	int UsedMaxY { get; }
 	int MinX { get; }
 	int MinY { get; }
 	int MaxX { get; }
 	int MaxY { get; }
-	int Width { get; }
-	int Height { get; }
+	int UsedWidth { get; }
+	int UsedHeight { get; }
+	int FullWidth { get; }
+	int FullHeight { get; }
 
 	Point TopLeft { get; }
 	Point TopRight { get; }
@@ -26,4 +32,6 @@ public interface IGrid<T>
 	IEnumerable<int> ColumnIndexs();
 	IEnumerable<int> RowIndexs();
 	T[,] ToArray();
+
+	void AddGrid(int leftX, int bottomY, T[,] grid);
 }
