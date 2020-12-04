@@ -55,10 +55,10 @@ public class GridPreview<T>
 							{
 								var tile = Grid[x + Offset.X, y + Offset.Y];
 								Console.ForegroundColor = GetTileColor(tile);
-								BetterConsole.WriteAt(tile + "", x + Viewport.X, y + Viewport.Y);
+								BetterConsole.WriteAt(_getTilePreview(tile), x + Viewport.X, y + Viewport.Y);
 							}
 							else
-								BetterConsole.WriteAt(EmptyChar.ToString(), x + Viewport.X, y + Viewport.Y);
+								BetterConsole.WriteAt(EmptyChar, x + Viewport.X, y + Viewport.Y);
 						}
 					}
 				}

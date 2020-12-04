@@ -45,6 +45,12 @@ public static class BetterConsole
 			WriteLine(value, x, y);
 	}
 
+	public static void WriteAt(char value, int x, int y)
+	{
+		Position = new Point(WriteLeft + x, WriteTop + y);
+		Console.Write(value);
+	}
+
 	private static int WriteLine(string value, int x, int y)
 	{
 		int lines = 1;
