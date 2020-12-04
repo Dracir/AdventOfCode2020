@@ -12,6 +12,14 @@ public static class InputParser
 		else
 			return ListOfInts(input, ',');
 	}
+	public static string[] ListOfStrings(string input)
+	{
+		if (input.Contains("\n"))
+			return ListOfStrings(input, '\n');
+		else
+			return ListOfStrings(input, ',');
+	}
+	public static string[] ListOfStrings(string input, char separator) => input.Split(separator).ToArray();
 
 	public static int[] ListOfDigitNoSeparator(string input) => input.Select(x => int.Parse(x.ToString())).ToArray();
 	public static int[] ListOfInts(string input, char separator) => input.Split(separator).Select(x => int.Parse(x)).ToArray();
@@ -46,11 +54,14 @@ public static class InputParser
 	public static char[,] ParseCharGrid(string input, char lineSeparator)
 	{
 		var lines = input.Split(lineSeparator);
-		var grid = new char[lines[0].Length, lines.Length];
+		var grid = new char[lines[0].TrimEnd().Length, lines.Length];
 
 		for (int y = 0; y < lines.Length; y++)
-			for (int x = 0; x < lines[y].Length; x++)
-				grid[x, y] = lines[y][x];
+		{
+			var line = lines[y].TrimEnd();
+			for (int x = 0; x < line.Length; x++)
+				grid[x, y] = line[x];
+		}
 
 		return grid;
 	}
@@ -62,7 +73,7 @@ public static class InputParser
 		var xRange = new Point(0, grid.GetLength(0));
 		var yRange = new Point(0, grid.GetLength(1));
 		var growingGrid = new GrowingGrid<char>(defaultValue, xRange, yRange, grid.Length, true, true);
-		growingGrid.AddGrid(0, 0, grid);
+		growingGrid.AddGrid(0, 0, grid, GridAxes.XY);
 		return growingGrid;
 	}
 

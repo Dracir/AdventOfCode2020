@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Xunit;
 
@@ -73,6 +74,7 @@ namespace Test
 			Assert.Equal(0, grid.MinY);
 			Assert.Equal(5, grid.MaxY);
 		}
+
 		[Fact]
 		public void GrowTwiceRight_IsTwiceBiggerToTheRight()
 		{
@@ -90,6 +92,58 @@ namespace Test
 
 		}
 
+		public class AddGrid
+		{
+			int[,] SmallSquare = new int[,] { { 1, 2 }, { 4, 3 } };
 
+			[Fact]
+			public void SimpleAddGrid()
+			{
+				var grid = new GrowingGrid<int>(0, new Point(0, 2), new Point(0, 5), 10, true, true);
+				var gridToAdd = new int[,] {
+					{ 1, 0, 2 }, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, { 4, 0, 3 }
+				};
+
+				grid.AddGrid(0, 0, gridToAdd, GridAxes.YX);
+
+				Assert.Equal(1, grid[0, 0]);
+				Assert.Equal(2, grid[2, 0]);
+				Assert.Equal(3, grid[2, 5]);
+				Assert.Equal(4, grid[0, 5]);
+
+			}
+
+			[Fact]
+			public void OffsetedAddGrid()
+			{
+				var grid = new GrowingGrid<int>(0, new Point(0, 2), new Point(0, 5), 10, true, true);
+
+				grid.AddGrid(1, 1, SmallSquare, GridAxes.YX);
+
+				Assert.Equal(1, grid[1, 1]);
+				Assert.Equal(2, grid[2, 1]);
+				Assert.Equal(3, grid[2, 2]);
+				Assert.Equal(4, grid[1, 2]);
+
+			}
+
+			[Fact]
+			public void AddGridOnGrowth()
+			{
+				var grid = new GrowingGrid<int>(0, new Point(0, 2), new Point(0, 5), 10, true, true);
+				grid.OnGridGrown = DoAddGridOnGrowth;
+
+				Assert.Equal(1, grid[3, 0]);
+				Assert.Equal(2, grid[4, 0]);
+				Assert.Equal(3, grid[4, 1]);
+				Assert.Equal(4, grid[3, 1]);
+
+			}
+
+			private void DoAddGridOnGrowth(GrowingGrid<int>.GrowingGridEvent obj)
+			{
+				obj.Grid.AddGrid(obj.Grid.FullWidth - obj.Right, 0, SmallSquare, GridAxes.YX);
+			}
+		}
 	}
 }

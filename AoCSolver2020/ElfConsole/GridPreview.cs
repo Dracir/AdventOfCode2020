@@ -31,25 +31,42 @@ public class GridPreview<T>
 		if (Grid != null)
 			for (int y = 0; y < GridPreviewHeight; y++)
 			{
-				if (GetTileColor == null)
+				if (Grid.YInBound(y + Offset.Y))
 				{
-
-					var line = "";
-					for (int x = 0; x < GridPreviewWidth; x++)
+					if (GetTileColor == null)
 					{
-						line += Grid[x + Offset.X, y + Offset.Y];
+
+						var line = "";
+						for (int x = 0; x < GridPreviewWidth; x++)
+						{
+							if (Grid.XInBound(x + Offset.X))
+								line += Grid[x + Offset.X, y + Offset.Y];
+							else
+								line += EmptyChar;
+						}
+						BetterConsole.WriteAt(line, Viewport.X, y + Viewport.Y);
 					}
-					BetterConsole.WriteAt(line, Viewport.X, y + Viewport.Y);
+					else
+					{
+						for (int x = 0; x < GridPreviewWidth; x++)
+						{
+
+							if (Grid.XInBound(x + Offset.X))
+							{
+								var tile = Grid[x + Offset.X, y + Offset.Y];
+								Console.ForegroundColor = GetTileColor(tile);
+								BetterConsole.WriteAt(tile + "", x + Viewport.X, y + Viewport.Y);
+							}
+							else
+								BetterConsole.WriteAt(EmptyChar.ToString(), x + Viewport.X, y + Viewport.Y);
+						}
+					}
 				}
 				else
 				{
-					for (int x = 0; x < GridPreviewWidth; x++)
-					{
-						var tile = Grid[x + Offset.X, y + Offset.Y];
-						Console.ForegroundColor = GetTileColor(tile);
-						BetterConsole.WriteAt(tile + "", x + Viewport.X, y + Viewport.Y);
-					}
+					BetterConsole.WriteAt("", Viewport.X, y + Viewport.Y);
 				}
+
 			}
 
 		Console.ResetColor();

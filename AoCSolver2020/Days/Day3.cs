@@ -10,36 +10,38 @@ public class Day3 : DayBase
 	char[,]? _inputGrid;
 	private GridPreview<char>[]? _gridRenderer;
 	private HeaderValue[]? _treeHit;
-	private HeaderValue[]? _openSquares;
+	private HeaderValue? _progress;
+	private int _rowToDo;
 
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart1()
 	{
-		CreateRenders(1);
+		CreateRenders(1, 30);
 	}
 
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
 	{
-		CreateRenders(5);
+		CreateRenders(5, 20);
 	}
 
-	private void CreateRenders(int amount)
+	private void CreateRenders(int amount, int gridPreviewWidth)
 	{
-		Console.Header.ReserveLines(21);
+		var headerSize = gridPreviewWidth + 5;
+		Console.Header.ReserveLines(23);
+		_progress = Console.Header.CreateBlockValue(amount * headerSize - 10, "Progress: ", ValueToUTFBars.Styles.Horizontal);
+		Console.Header.ForceNewLine();
 
 		_treeHit = new HeaderValue[amount];
-		//_openSquares = new HeaderValue[amount];
 		_gridRenderer = new GridPreview<char>[amount];
 
 		for (int i = 0; i < amount; i++)
 		{
 			_treeHit[i] = Console.Header.CreateFormatedValue(13, "Tree Hits: ");
-			//_openSquares[i] = Console.Header.CreateFormatedValue(5, "Open Squares: ");
 
-			_gridRenderer[i] = new GridPreview<char>((c) => c, new RectInt(i * 25, 4, 20, 20));
+			_gridRenderer[i] = new GridPreview<char>((c) => c, new RectInt(i * headerSize, 6, gridPreviewWidth, 20));
 			_gridRenderer[i].GetTileColor = (c) => c switch
 			{
 				'.' => ConsoleColor.Gray,
@@ -56,6 +58,9 @@ public class Day3 : DayBase
 
 	public override void CleanUp()
 	{
+		_gridRenderer = null;
+		_treeHit = null;
+		_progress = null;
 	}
 
 	//-----------------------------------------------------------------
@@ -73,78 +78,56 @@ public class Day3 : DayBase
 	}
 
 
-	public static GrowingGrid<char> CreateGrowingGrid(char[,] grid)
-	{
-		var xRange = new Point(0, grid.GetLength(0) - 1);
-		var yRange = new Point(0, grid.GetLength(1) - 1);
-		var growingGrid = new GrowingGrid<char>(' ', xRange, yRange, grid.GetLength(0) - 1, true, true);
-		growingGrid.AddGrid(0, 0, grid);
-		return growingGrid;
-	}
+	public static GrowingGrid<char> CreateGrowingGrid(char[,] grid) => new GrowingGrid<char>(' ', grid, GridAxes.XY, grid.GetLength(0), true, true);
 
 	//-----------------------------------------------------------------
 
 	public override long Part1(string input)
 	{
 		_inputGrid = InputParser.ParseCharGrid(input, '\n');
+		_rowToDo = _inputGrid.GetLength(1);
+
 		var grid = CreateGrowingGrid(_inputGrid);
 		grid.OnGridGrown = OnGridGrow;
-		if (_gridRenderer != null)
-			_gridRenderer[0].Grid = grid;
 
-		var hitTrees = 0;
-		var openSquares = 0;
-		var x = 0;
-		var y = 0;
-		var lastTile = '.';
-
-		while (y < _inputGrid.GetLength(1))
+		Solver solver;
+		if (_gridRenderer != null && _gridRenderer[0] != null && _treeHit != null)
 		{
-			grid[x, y] = lastTile;
-			x += 3;
-			y += 1;
-
-
-			if (_gridRenderer != null && y > 10)
-				_gridRenderer[0].Offset = new Point(x - 10, y - 10);
-
-			var gridValue = grid[x, y];
-			grid[x, y] = '@';
-
-			if (gridValue == '#')
-			{
-				lastTile = 'X';
-				hitTrees++;
-				if (_treeHit != null)
-					_treeHit[0].SetValue(hitTrees);
-			}
-			else
-			{
-				lastTile = 'O';
-				openSquares++;
-				if (_openSquares != null)
-					_openSquares[0].SetValue(openSquares);
-			}
-
-			if (_gridRenderer != null)
-				_gridRenderer[0].Update();
-
+			_gridRenderer[0].Grid = grid;
+			solver = new Solver(grid, _gridRenderer[0], _treeHit[0], new Point(3, 1));
 		}
-		return hitTrees;
+		else
+			solver = new Solver(grid, null, null, new Point(3, 1));
+
+
+		for (var y = 0; y < _rowToDo; y++)
+		{
+			solver.Step();
+
+			if (_progress != null)
+				_progress.SetValue(y * 1f / _rowToDo);
+		}
+
+		if (_progress != null)
+			_progress.SetValue(1f);
+
+		return solver.HitTrees;
 	}
+	//-----------------------------------------------------------------
 
 	private void OnGridGrow(GrowingGrid<char>.GrowingGridEvent growingEvent)
 	{
 		var grid = growingEvent.Grid;
 		if (growingEvent.Right != 0 && _inputGrid != null)
 		{
-			grid.AddGrid(grid.MaxX - growingEvent.Right, 0, _inputGrid);
+			grid.AddGrid(grid.FullWidth - growingEvent.Right, 0, _inputGrid, GridAxes.XY);
 		}
 	}
 
 	public override long Part2(string input)
 	{
 		_inputGrid = InputParser.ParseCharGrid(input, '\n');
+		_rowToDo = _inputGrid.GetLength(1);
 
 		var directions = new Point[] {
 			new Point(1,1), new Point(3,1), new Point(5,1), new Point(7,1), new Point(1,2)
@@ -164,18 +147,26 @@ public class Day3 : DayBase
 				solvers.Add(new Solver(grid, null, null, directions[i]));
 		}
 
-
-
 		var y = 0;
-		while (y < _inputGrid.GetLength(1))
+		while (y < _rowToDo)
 		{
 			foreach (var solver in solvers)
 			{
 				solver.Step();
 			}
+			y++;
 
+			if (_progress != null)
+				_progress.SetValue(y * 1f / _rowToDo);
 		}
-		return 0;
+
+		if (_progress != null)
+			_progress.SetValue(1f);
+
+		var value = 1L;
+		foreach (var solver in solvers)
+			value *= (long)solver.HitTrees;
+		return value;
 	}
 
 	//-----------------------------------------------------------------
@@ -189,6 +180,7 @@ public class Day3 : DayBase
 		int x = 0;
 		int y = 0;
 		public int HitTrees = 0;
+		public int OpenSquare = 0;
 		public char LastTile = '.';
 		private int _totalHeight;
 
@@ -211,8 +203,8 @@ public class Day3 : DayBase
 			x += _direction.X;
 			y += _direction.Y;
 
-			if (Renderer != null && y > 10)
-				Renderer.Offset = new Point(x - 10, y - 10);
+			if (Renderer != null)
+				Renderer.Offset = new Point(x - Renderer.Viewport.Width / 2, y - Renderer.Viewport.Height / 2);
 
 			var gridValue = Grid[x, y];
 			Grid[x, y] = '@';
@@ -225,7 +217,11 @@ public class Day3 : DayBase
 					TreeHitHeader.SetValue(HitTrees);
 			}
 			else
+			{
 				LastTile = 'O';
+				OpenSquare++;
+			}
+
 			if (Renderer != null)
 				Renderer.Update();
 		}

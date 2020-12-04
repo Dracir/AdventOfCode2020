@@ -22,7 +22,7 @@ public static class ConsoleManager
 	public static Point Size => new Point(Width, Height);
 	public static ConsoleKeyInfo ReadKey() => Console.ReadKey();
 
-	public static void SetFullScreen() => ConsoleUtils.SetFullScreen();
+	public static void SetFullScreen() => ConsoleUtils.SetUp();
 
 	public static void Refresh()
 	{

@@ -132,15 +132,24 @@ public class Grid<T> : IGrid<T>
 		return arr;
 	}
 
-	public void AddGrid(int leftX, int bottomY, T[,] grid)
+	public void AddGrid(int leftX, int bottomY, T[,] grid, GridAxes axes)
 	{
-		for (int x = 0; x < grid.GetLength(0); x++)
+		if (axes == GridAxes.XY)
 		{
-			for (int y = 0; y < grid.GetLength(1); y++)
-			{
-				this[x + leftX, y + bottomY] = grid[x, y];
-			}
+			for (int x = 0; x < grid.GetLength(0); x++)
+				for (int y = 0; y < grid.GetLength(1); y++)
+					this[x + leftX, y + bottomY] = grid[x, y];
+
+		}
+		else
+		{
+			for (int x = 0; x < grid.GetLength(1); x++)
+				for (int y = 0; y < grid.GetLength(0); y++)
+					this[x + leftX, y + bottomY] = grid[y, x];
 		}
 	}
 
+	public bool XInBound(int x) => x >= MinX && x <= MaxX;
+	public bool YInBound(int y) => y >= MinY && y <= MaxY;
+	public bool PointInBound(Point pt) => XInBound(pt.X) && YInBound(pt.Y);
 }

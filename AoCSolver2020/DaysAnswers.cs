@@ -6,8 +6,8 @@ public static class DaysAnswers
 	public static long Day2Part1Answer => 1;
 	public static long Day2Part2Answer => 2;
 
-	public static long Day3Part1Answer => 1;
-	public static long Day3Part2Answer => 2;
+	public static long Day3Part1Answer => 191;
+	public static long Day3Part2Answer => 1478615040;
 
 	public static long Day4Part1Answer => 1;
 	public static long Day4Part2Answer => 2;

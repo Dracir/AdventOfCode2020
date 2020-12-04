@@ -43,6 +43,10 @@ public class GrowingGrid<T> : IGrid<T>
 	public Point BottomRight => _grid.BottomRight;
 	public Point Center => _grid.Center;
 
+	public bool XInBound(int x) => _grid.XInBound(x);
+	public bool YInBound(int y) => _grid.YInBound(y);
+	public bool PointInBound(Point pt) => _grid.PointInBound(pt);
+
 	public Action<GrowingGridEvent>? OnGridGrown;
 
 	public GrowingGrid(T defaultValue, Point xRange, Point yRange, int growthIncrement, bool growsOnRead = true, bool growsOnWrite = true)
@@ -52,6 +56,23 @@ public class GrowingGrid<T> : IGrid<T>
 		_growthIncrement = growthIncrement;
 		_growsOnRead = growsOnRead;
 		_growsOnWrite = growsOnWrite;
+	}
+
+	public GrowingGrid(T defaultValue, T[,] startingGrid, GridAxes axes, int growthIncrement, bool growsOnRead = true, bool growsOnWrite = true)
+	{
+		_defaultValue = defaultValue;
+		_growthIncrement = growthIncrement;
+		_growsOnRead = growsOnRead;
+		_growsOnWrite = growsOnWrite;
+
+		int xIndex = axes == GridAxes.YX ? 1 : 0;
+		int yIndex = axes == GridAxes.YX ? 0 : 1;
+		var xRange = new Point(0, startingGrid.GetLength(xIndex) - 1);
+		var yRange = new Point(0, startingGrid.GetLength(yIndex) - 1);
+
+		_grid = new Grid<T>(defaultValue, xRange, yRange);
+
+		AddGrid(0, 0, startingGrid, axes);
 	}
 
 	public T this[Point key]
@@ -112,7 +133,7 @@ public class GrowingGrid<T> : IGrid<T>
 			GrowGrid(top, right, bottom, left);
 	}
 
-	public void AddGrid(int leftX, int bottomY, T[,] grid) => _grid.AddGrid(leftX, bottomY, grid);
+	public void AddGrid(int leftX, int bottomY, T[,] grid, GridAxes axes) => _grid.AddGrid(leftX, bottomY, grid, axes);
 
 	private void GrowGrid(int up, int right, int down, int left)
 	{

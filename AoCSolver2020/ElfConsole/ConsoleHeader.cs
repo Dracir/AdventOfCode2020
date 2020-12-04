@@ -51,13 +51,18 @@ public class ConsoleHeader
 		}
 	}
 
+	public void ForceNewLine()
+	{
+		CurrentHeaderPointer = new Point(1, CurrentHeaderPointer.Y + 1);
+	}
+
 	private HeaderValue CreateValue(int valueWidth, string title, Func<Point, HeaderValue> createHeader)
 	{
 		var consolePositionBefore = BetterConsole.Position;
 		var totalWidth = valueWidth + title.Length + 1;
 
 		if (CurrentHeaderPointer.X + totalWidth > BetterConsole.Width)
-			CurrentHeaderPointer = new Point(1, CurrentHeaderPointer.Y + 1);
+			ForceNewLine();
 
 		Console.ForegroundColor = ConsoleManager.Skin.FramesColor;
 		BetterConsole.WriteAt("|", CurrentHeaderPointer.X, CurrentHeaderPointer.Y);

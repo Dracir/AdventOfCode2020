@@ -33,5 +33,11 @@ public interface IGrid<T>
 	IEnumerable<int> RowIndexs();
 	T[,] ToArray();
 
-	void AddGrid(int leftX, int bottomY, T[,] grid);
+	void AddGrid(int leftX, int bottomY, T[,] grid, GridAxes axes);
+
+	bool XInBound(int x);
+	bool YInBound(int y);
+	bool PointInBound(Point pt);
+
 }
+public enum GridAxes { XY, YX };

@@ -1,0 +1,4 @@
+- Right click on the console window title bar, select Defaults, switch to tab Font and choose CONSOLAS
+- Regedit
+  - Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor
+  - Add "Autorun" with value "@chcp 65001>nul"

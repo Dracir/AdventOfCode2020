@@ -9,7 +9,9 @@ namespace AoC2020
 	{
 
 		private static int _currentDay = 3;
-		private static int _currentPart = 2;
+		private static int _currentPart = 1;
+		private static bool _useConsole = true;
+
 		private static DayBase[] _days = new DayBase[26];
 
 		static void Main(string[] args)
@@ -27,7 +29,8 @@ namespace AoC2020
 
 			do
 			{
-				Console.WriteLineAt("[←]Previous  [→]Next  [↩]Run  [1]Part 1  [2]Part 2  [ESC]Quit", Console.Height - 1);
+				var consoleStr = _useConsole ? "[C] Stop Output" : "[C] Use Output";
+				Console.WriteLineAt($"[←]Previous  [→]Next  [↩]Run  [1]Part 1  [2]Part 2  {consoleStr}  [ESC]Quit", Console.Height - 1);
 				var userInput = Console.ReadKey();
 				if (userInput.Key == ConsoleKey.D1)
 				{
@@ -52,6 +55,10 @@ namespace AoC2020
 					if (_currentDay < 0) _currentDay = 25;
 					_days[_currentDay] = NewDay(_currentDay);
 					UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
+				}
+				else if (userInput.Key == ConsoleKey.C)
+				{
+					_useConsole = !_useConsole;
 				}
 				else if (userInput.Key == ConsoleKey.Enter)
 				{
@@ -100,10 +107,18 @@ namespace AoC2020
 		private static void UpdateHeader(int day, DayBase dayBase, int part)
 		{
 			Console.Clear();
-			if (part == 1)
-				dayBase.SetUpConsolePart1();
+			if (!_useConsole)
+			{
+				dayBase.CleanUp();
+			}
 			else
-				dayBase.SetUpConsolePart2();
+			{
+				if (part == 1)
+					dayBase.SetUpConsolePart1();
+				else
+					dayBase.SetUpConsolePart2();
+			}
+
 
 			ConsoleManager.Header.SetTitle(day, DaysTitles.GetDayTitle(day), part);
 			ConsoleManager.Refresh();

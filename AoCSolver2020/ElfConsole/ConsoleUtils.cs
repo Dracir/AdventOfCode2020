@@ -26,10 +26,11 @@ public static class ConsoleUtils
 		internal static extern bool SetConsoleCP(uint wCodePageID);
 	}
 
-	public static void SetFullScreen()
+	public static void SetUp()
 	{
+		Console.OutputEncoding = System.Text.Encoding.Unicode;
 		//DllImports.SetConsoleOutputCP(65001);
-		//DllImports.SetConsoleCP(65001);
+		DllImports.SetConsoleCP(65001);
 		Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 		DllImports.ShowWindow(DllImports.ThisConsole, DllImports.MAXIMIZE);
 	}
