@@ -8,8 +8,8 @@ namespace AoC2020
 	class Program
 	{
 
-		private static int _currentDay = 3;
-		private static int _currentPart = 1;
+		private static int _currentDay = 4;
+		private static int _currentPart = 2;
 		private static bool _useConsole = true;
 
 		private static DayBase[] _days = new DayBase[26];
