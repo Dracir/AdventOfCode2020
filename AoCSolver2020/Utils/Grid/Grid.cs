@@ -8,21 +8,31 @@ using System.Text.RegularExpressions;
 
 public class Grid<T> : IGrid<T>
 {
-	public T[,] Values;
+	private T[,] Values;
 
 	private int _offsetX;
 	private int _offsetY;
-	private int minX;
-	private int minY;
-	private int maxX;
-	private int maxY;
+	private int usedMinX;
+	private int usedMinY;
+	private int usedMaxX;
+	private int usedMaxY;
 
-	public int MinX => minX;
-	public int MinY => minY;
-	public int MaxX => maxX;
-	public int MaxY => maxY;
-	public int Width => maxX - minX + 1;
-	public int Height => maxY - minY + 1;
+
+	public int UsedMinX => usedMinX;
+	public int UsedMinY => usedMinY;
+	public int UsedMaxX => usedMaxX;
+	public int UsedMaxY => usedMaxY;
+
+	public int MinX => OffsetX;
+	public int MinY => OffsetY;
+	public int MaxX => OffsetX + FullWidth - 1;
+	public int MaxY => OffsetY + FullHeight - 1;
+
+	public int FullWidth => Values.GetLength(0);
+	public int FullHeight => Values.GetLength(1);
+	public int UsedWidth => usedMaxX - usedMinX + 1;
+	public int UsedHeight => usedMaxY - usedMinY + 1;
+
 	public int OffsetX => _offsetX;
 	public int OffsetY => _offsetY;
 
@@ -33,11 +43,11 @@ public class Grid<T> : IGrid<T>
 		this.DefaultValue = defaultValue;
 		_offsetX = -xRange.X;
 		_offsetY = -yRange.X;
-		minX = _offsetX;
-		maxX = _offsetX;
-		minY = _offsetY;
-		maxY = _offsetY;
-		Values = new T[xRange.Y - xRange.X, yRange.Y - yRange.X];
+		usedMinX = _offsetX;
+		usedMaxX = _offsetX;
+		usedMinY = _offsetY;
+		usedMaxY = _offsetY;
+		Values = new T[xRange.Y - xRange.X + 1, yRange.Y - yRange.X + 1];
 	}
 
 
@@ -53,24 +63,24 @@ public class Grid<T> : IGrid<T>
 		set
 		{
 			Values[x + _offsetX, y + _offsetY] = value;
-			minX = Math.Min(minX, x);
-			minY = Math.Min(minY, y);
-			maxX = Math.Max(maxX, x);
-			maxY = Math.Max(maxY, y);
+			usedMinX = Math.Min(usedMinX, x);
+			usedMinY = Math.Min(usedMinY, y);
+			usedMaxX = Math.Max(usedMaxX, x);
+			usedMaxY = Math.Max(usedMaxY, y);
 		}
 	}
 
 
-	public Point TopLeft => new Point(minX, maxY);
-	public Point TopRight => new Point(maxX, maxY);
-	public Point BottomLeft => new Point(minX, minY);
-	public Point BottomRight => new Point(maxX, minY);
+	public Point TopLeft => new Point(usedMinX, usedMaxY);
+	public Point TopRight => new Point(usedMaxX, usedMaxY);
+	public Point BottomLeft => new Point(usedMinX, usedMinY);
+	public Point BottomRight => new Point(usedMaxX, usedMinY);
 	public Point Center => new Point(_offsetX, _offsetY);
 
 	public IEnumerable<Point> Points()
 	{
-		for (int x = minX; x <= maxX; x++)
-			for (int y = minY; y <= maxY; y++)
+		for (int x = usedMinX; x <= usedMaxX; x++)
+			for (int y = usedMinY; y <= usedMaxY; y++)
 				yield return new Point(x, y);
 	}
 
@@ -78,10 +88,10 @@ public class Grid<T> : IGrid<T>
 	public IEnumerable<Point> AreaSquareAround(Point pt, int radiusDistance)
 	{
 
-		int x1 = Math.Max(minX, pt.X - radiusDistance);
-		int y1 = Math.Max(minY, pt.Y - radiusDistance);
-		int x2 = Math.Max(maxX, pt.X + radiusDistance);
-		int y2 = Math.Max(maxY, pt.Y + radiusDistance);
+		int x1 = Math.Max(usedMinX, pt.X - radiusDistance);
+		int y1 = Math.Max(usedMinY, pt.Y - radiusDistance);
+		int x2 = Math.Max(usedMaxX, pt.X + radiusDistance);
+		int y2 = Math.Max(usedMaxY, pt.Y + radiusDistance);
 
 		for (int x = x1; x <= x2; x++)
 			for (int y = y1; y <= y2; y++)
@@ -90,10 +100,10 @@ public class Grid<T> : IGrid<T>
 	public IEnumerable<Point> AreaAround(Point pt, int manhattanDistance)
 	{
 
-		int x1 = Math.Max(minX, pt.X - manhattanDistance);
-		int y1 = Math.Max(minY, pt.Y - manhattanDistance);
-		int x2 = Math.Max(maxX, pt.X + manhattanDistance);
-		int y2 = Math.Max(maxY, pt.Y + manhattanDistance);
+		int x1 = Math.Max(usedMinX, pt.X - manhattanDistance);
+		int y1 = Math.Max(usedMinY, pt.Y - manhattanDistance);
+		int x2 = Math.Max(usedMaxX, pt.X + manhattanDistance);
+		int y2 = Math.Max(usedMaxY, pt.Y + manhattanDistance);
 
 		for (int x = x1; x <= x2; x++)
 			for (int y = y1; y <= y2; y++)
@@ -103,23 +113,34 @@ public class Grid<T> : IGrid<T>
 
 	public IEnumerable<int> ColumnIndexs()
 	{
-		for (int y = minY; y <= maxY; y++)
+		for (int y = usedMinY; y <= usedMaxY; y++)
 			yield return y;
 	}
 
 	public IEnumerable<int> RowIndexs()
 	{
-		for (int x = minX; x <= maxX; x++)
+		for (int x = usedMinX; x <= usedMaxX; x++)
 			yield return x;
 	}
 
 	public T[,] ToArray()
 	{
-		var arr = new T[Width, Height];
-		for (int x = minX; x <= maxX; x++)
-			for (int y = minY; y <= maxY; y++)
-				arr[x - minX, y - minY] = Values[x, y];
+		var arr = new T[UsedWidth, UsedHeight];
+		for (int x = usedMinX; x <= usedMaxX; x++)
+			for (int y = usedMinY; y <= usedMaxY; y++)
+				arr[x - usedMinX, y - usedMinY] = Values[x, y];
 		return arr;
+	}
+
+	public void AddGrid(int leftX, int bottomY, T[,] grid)
+	{
+		for (int x = 0; x < grid.GetLength(0); x++)
+		{
+			for (int y = 0; y < grid.GetLength(1); y++)
+			{
+				this[x + leftX, y + bottomY] = grid[x, y];
+			}
+		}
 	}
 
 }

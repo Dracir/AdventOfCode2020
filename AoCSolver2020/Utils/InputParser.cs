@@ -25,7 +25,6 @@ public static class InputParser
 		return new RangeInt(Int32.Parse(split[0]), Int32.Parse(split[1]));
 	}
 
-
 	public static bool[,] ParseBoolGrid(string input, char separator, char trueCharacter)
 	{
 		var lines = input.Split(separator);
@@ -38,7 +37,34 @@ public static class InputParser
 		return grid;
 	}
 
+	//Exemple
+	//..##.......
+	//#...#...#..
+	//.#....#..#.
+	//..#.#...#.#
+	//.#...##..#.
+	public static char[,] ParseCharGrid(string input, char lineSeparator)
+	{
+		var lines = input.Split(lineSeparator);
+		var grid = new char[lines[0].Length, lines.Length];
 
+		for (int y = 0; y < lines.Length; y++)
+			for (int x = 0; x < lines[y].Length; x++)
+				grid[x, y] = lines[y][x];
+
+		return grid;
+	}
+
+
+	public static GrowingGrid<char> ReadGrowingGrid(string input, char lineseparator, char defaultValue)
+	{
+		var grid = ParseCharGrid(input, lineseparator);
+		var xRange = new Point(0, grid.GetLength(0));
+		var yRange = new Point(0, grid.GetLength(1));
+		var growingGrid = new GrowingGrid<char>(defaultValue, xRange, yRange, grid.Length, true, true);
+		growingGrid.AddGrid(0, 0, grid);
+		return growingGrid;
+	}
 
 	public static Tree ReadTree(string input, char lineSeparator, char linkSeparator)
 	{

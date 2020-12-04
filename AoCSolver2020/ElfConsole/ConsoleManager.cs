@@ -11,13 +11,15 @@ public static class ConsoleManager
 
 	public static ConsoleHeader Header = new ConsoleHeader();
 	private static ConsoleCenter Center = new ConsoleCenter();
-	private static int FooterHeight = 3;
+	public static int FooterHeight = 3;
 	public static ConsoleSkin Skin = new ConsoleSkin();
 
 
 	public static void WriteLineAt(string text, int line) => BetterConsole.WriteAt(text, line);
 
 	public static int Height => BetterConsole.Height;
+	public static int Width => BetterConsole.Width;
+	public static Point Size => new Point(Width, Height);
 	public static ConsoleKeyInfo ReadKey() => Console.ReadKey();
 
 	public static void SetFullScreen() => ConsoleUtils.SetFullScreen();
