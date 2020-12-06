@@ -18,10 +18,10 @@ public class ConsoleHeader
 		var titleText = $"  Day {day}: {title} - Part {part}".PadRight(BetterConsole.Width - 2);
 
 		Console.ForegroundColor = ConsoleManager.Skin.FramesColor;
-		BetterConsole.WriteAt($"╔{line}╗", 0);
-		BetterConsole.WriteAt("║", 1);
+		BetterConsole.WriteAtLine($"╔{line}╗", 0);
+		BetterConsole.WriteAtLine("║", 1);
 		BetterConsole.WriteAt("║", BetterConsole.Width - 1, 1);
-		BetterConsole.WriteAt($"╚{line}╝", 2);
+		BetterConsole.WriteAtLine($"╚{line}╝", 2);
 
 		Console.ForegroundColor = ConsoleManager.Skin.DayTitleColor;
 		BetterConsole.WriteAt(titleText, 1, 1);
@@ -44,7 +44,7 @@ public class ConsoleHeader
 			BetterConsole.Position = new Point(0, ReservedLineStart + reserveLines + 1);
 			var line = new String('═', BetterConsole.Width);
 			Console.ForegroundColor = ConsoleManager.Skin.FramesColor;
-			BetterConsole.WriteAt(line, ReservedLineStart + reserveLines);
+			BetterConsole.WriteAtLine(line, ReservedLineStart + reserveLines);
 
 			Console.ResetColor();
 

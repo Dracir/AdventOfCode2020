@@ -8,8 +8,8 @@ namespace AoC2020
 	class Program
 	{
 
-		private static int _currentDay = 5;
-		private static int _currentPart = 1;
+		private static int _currentDay = 6;
+		private static int _currentPart = 2;
 		private static bool _useConsole = true;
 
 		private static DayBase[] _days = new DayBase[26];
@@ -136,11 +136,12 @@ namespace AoC2020
 				answer = _days[currentDay].Part2(DaysInputs.ReadInput(currentDay));
 			stopwatch.Stop();
 
+			BetterConsole.ForegroundColor = ConsoleColor.Gray;
 			if (stopwatch.ElapsedMilliseconds < 100)
-				BetterConsole.WriteAt($"Time : {stopwatch.ElapsedMilliseconds}ms ({stopwatch.Elapsed.ToString()})", BetterConsole.Height - 3);
+				BetterConsole.WriteAtLine($"Time : {stopwatch.ElapsedMilliseconds}ms ({stopwatch.Elapsed.ToString()})", BetterConsole.Height - 3);
 			else
-				BetterConsole.WriteAt($"Time : {stopwatch.Elapsed.ToString()}", BetterConsole.Height - 3);
-			BetterConsole.WriteAt($"Answer : {answer}", BetterConsole.Height - 2);
+				BetterConsole.WriteAtLine($"Time : {stopwatch.Elapsed.ToString()}", BetterConsole.Height - 3);
+			BetterConsole.WriteAtLine($"Answer : {answer}", BetterConsole.Height - 2);
 		}
 	}
 }

@@ -15,7 +15,8 @@ public static class ConsoleManager
 	public static ConsoleSkin Skin = new ConsoleSkin();
 
 
-	public static void WriteLineAt(string text, int line) => BetterConsole.WriteAt(text, line);
+	public static void WriteLineAt(string text, int line) => BetterConsole.WriteAtLine(text, line);
+	public static void WriteAt(char c, int x, int y) => BetterConsole.WriteAt(c, x, y);
 
 	public static int Height => BetterConsole.Height;
 	public static int Width => BetterConsole.Width;

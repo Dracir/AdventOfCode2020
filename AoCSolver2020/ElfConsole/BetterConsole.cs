@@ -32,17 +32,27 @@ public static class BetterConsole
 
 	public static void ResetColor() => Console.ResetColor();
 
-	public static void WriteAt(string value, int line) => WriteAt(value, 0, line);
+	public static void WriteAtLine(string value, int line, int linesWidth = 0) => WriteAt(value, 0, line, linesWidth);
 
-	public static void WriteAt(string value, int x, int y)
+	public static void WriteAt(string value, int x, int y, int linesWidth = 0)
 	{
 		if (value.Contains("\n"))
 		{
 			foreach (var line in value.Split("\n"))
-				y += WriteLine(line, x, y);
+			{
+				var lineStr = line;
+				if (linesWidth != 0)
+					lineStr = lineStr.PadRight(linesWidth);
+				y += WriteLine(lineStr, x, y);
+			}
 		}
 		else
-			WriteLine(value, x, y);
+		{
+			if (linesWidth != 0)
+				WriteLine(value.PadRight(linesWidth), x, y);
+			else
+				WriteLine(value, x, y);
+		}
 	}
 
 	public static void WriteAt(char value, int x, int y)
