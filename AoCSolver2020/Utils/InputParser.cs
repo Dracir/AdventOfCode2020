@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Text.RegularExpressions;
 
 public static class InputParser
 {
@@ -66,6 +67,58 @@ public static class InputParser
 		return grid;
 	}
 
+	// -------------------------------------------
+	/**
+	Exemple: 
+		light red bags contain 1 bright white bag, 2 muted yellow bags.
+		dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+		keyValueSeparator = "contain"
+		valuesSeparator = ", "
+		quantityCapture = "(\d+)"
+		faded blue bags contain no other bags.
+		keyCapture = "([a-z] [a-z]) bag"
+		emptyCapture = "no other bags"
+	*/
+	public static NodeGroup ParseDictionnaryNodes(string input, string keyValueSeparator, string valuesSeparator, string quantityCapture, string keyCapture, string emptyCapture)
+	{
+		var dic = new Dictionary<string, Node>();
+		foreach (var line in input.Split("\n"))
+		{
+			if (string.IsNullOrEmpty(line))
+				continue;
+
+			var sections = line.Split(keyValueSeparator);
+			var key = Regex.Match(sections[0], keyCapture).Groups[1].Value;
+			var values = sections[1].Split(valuesSeparator);
+			var list = new List<Node>();
+			if (!Regex.IsMatch(sections[1], emptyCapture))
+				foreach (var value in values)
+				{
+					var quantity = Regex.Match(value, quantityCapture).Groups.IntValue(1);
+					var valueKey = Regex.Match(value, keyCapture).Groups[1].Value;
+					list.Add(new Node(valueKey, quantity));
+				}
+
+			var node = new Node(key, 1);
+			node.Children = list;
+			dic.Add(key, node);
+		}
+		return new NodeGroup(dic);
+	}
+
+	/*public struct NodeItem
+	{
+		public string Key;
+		public int Quantity;
+
+		public NodeItem(string key, int quantity)
+		{
+			Key = key;
+			Quantity = quantity;
+		}
+	}*/
+
+	// -------------------------------------------
 
 	public static GrowingGrid<char> ReadGrowingGrid(string input, char lineseparator, char defaultValue)
 	{
@@ -77,7 +130,7 @@ public static class InputParser
 		return growingGrid;
 	}
 
-	public static Tree ReadTree(string input, char lineSeparator, char linkSeparator)
+	/*public static Tree ReadTree(string input, char lineSeparator, char linkSeparator)
 	{
 		var outputNodes = new List<TreeNode>();
 		var comNode = new TreeNode("COM");
@@ -125,29 +178,5 @@ public static class InputParser
 
 		return new Tree(nodeDick, comNode);
 	}
-
-
-	public struct Tree
-	{
-		public Dictionary<string, TreeNode> Nodes;
-		public TreeNode Root;
-
-		public Tree(Dictionary<string, TreeNode> nodes, TreeNode root)
-		{
-			Nodes = nodes;
-			Root = root;
-		}
-	}
-
-	public class TreeNode
-	{
-		public string Name;
-		public TreeNode? Parent;
-		public List<TreeNode> Children = new List<TreeNode>();
-
-		public TreeNode(string name)
-		{
-			this.Name = name;
-		}
-	}
+*/
 }
