@@ -24,19 +24,29 @@ public static class NodeUtils
 		return false;
 	}
 
-
-	public static int CountQuantityOfChildren(NodeGroup group, string key)
+	public static Node MakeTreeOfNode(NodeGroup group, string key)
 	{
-		int amount = 1;
+		var node = new Node(key, 1);
 		foreach (var child in group.Nodes[key].Children)
 		{
-			var childNode = group.Nodes[child.Name];
-			if (childNode.Children.Count == 0)
-				amount += childNode.Quantity;
-			else
-				amount += childNode.Quantity * CountQuantityOfChildren(group, child.Name);
+			var childNode = MakeTreeOfNode(group, child.Name);
+			childNode.Quantity = child.Quantity;
+			childNode.Parent = node;
+
+			node.Children.Add(childNode);
 		}
 
-		return amount;
+		return node;
+	}
+
+	public static int CountTreeQuantities(Node tree)
+	{
+		var quantity = 1;
+		foreach (var child in tree.Children)
+			if (child.Children.Count == 0)
+				quantity += child.Quantity;
+			else
+				quantity += child.Quantity * CountTreeQuantities(child);
+		return quantity;
 	}
 }

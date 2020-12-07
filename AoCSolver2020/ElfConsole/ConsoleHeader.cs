@@ -35,7 +35,7 @@ public class ConsoleHeader
 		CurrentHeaderPointer = new Point(0, ReservedLineStart);
 		if (reserveLines == 0)
 		{
-			_reservedLines = 3;
+			_reservedLines = 4;
 			BetterConsole.Position = new Point(0, ReservedLineStart + reserveLines);
 		}
 		else
