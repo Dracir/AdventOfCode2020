@@ -79,7 +79,7 @@ namespace Test
 
 	public static void CreateYear()
 	{
-		for (int day = 1; day <= 25; day++)
+		for (int day = 8; day <= 25; day++)
 		{
 			var path = Path.Combine("DaysInput", $"Day{day}.txt");
 			File.WriteAllText(path, "");
@@ -88,9 +88,9 @@ namespace Test
 			var txt = MainFileText.Replace("{DayX}", $"{day}");
 			File.WriteAllText(path, txt);
 
-			path = Path.Combine("Tests/Days", $"Day{day}Tests.cs");
+			/*path = Path.Combine("Tests/Days", $"Day{day}Tests.cs");
 			txt = TestFileText.Replace("{DayX}", $"{day}");
-			File.WriteAllText(path, txt);
+			File.WriteAllText(path, txt);*/
 		}
 	}
 }

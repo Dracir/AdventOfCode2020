@@ -17,7 +17,7 @@ namespace AoC2020
 		static void Main(string[] args)
 		{
 			YearFileCreator.CreateYear();
-			RunSuperConsole();
+			//	RunSuperConsole();
 		}
 
 		private static void RunSuperConsole()

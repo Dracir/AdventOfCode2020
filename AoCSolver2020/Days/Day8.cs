@@ -5,7 +5,6 @@ using System.Linq;
 using Console = ConsoleManager;
 
 
-
 public class Day8 : DayBase
 {
 
@@ -15,7 +14,7 @@ public class Day8 : DayBase
 	{
 		Console.Header.ReserveLines(0);
 	}
-
+	
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
@@ -31,17 +30,8 @@ public class Day8 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
-	{
-		return base.Equals(obj);
-	}
-
-	//-----------------------------------------------------------------
-
-	public override int GetHashCode()
-	{
-		return base.GetHashCode();
-	}
+	public override bool Equals(object? obj) => base.Equals(obj);
+	public override int GetHashCode()=> base.GetHashCode();
 
 	//-----------------------------------------------------------------
 
