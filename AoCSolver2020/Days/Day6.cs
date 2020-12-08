@@ -72,7 +72,6 @@ public class Day6 : DayBase
 	}
 
 	//-----------------------------------------------------------------
-	//3352 too low
 	public override long Part2(string input)
 	{
 		var groups = input.Split("\n\n").ToList();

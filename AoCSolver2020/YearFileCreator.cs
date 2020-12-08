@@ -7,6 +7,7 @@ public static class YearFileCreator
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Console = ConsoleManager;
 
 
 public class Day{DayX} : DayBase
@@ -16,12 +17,14 @@ public class Day{DayX} : DayBase
 
 	public override void SetUpConsolePart1()
 	{
+		Console.Header.ReserveLines(0);
 	}
 	
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
 	{
+		Console.Header.ReserveLines(0);
 	}
 
 	//-----------------------------------------------------------------
@@ -32,17 +35,8 @@ public class Day{DayX} : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
-	{
-		return base.Equals(obj);
-	}
-
-	//-----------------------------------------------------------------
-
-	public override int GetHashCode()
-	{
-		return base.GetHashCode();
-	}
+	public override bool Equals(object? obj) => base.Equals(obj);
+	public override int GetHashCode()=> base.GetHashCode();
 
 	//-----------------------------------------------------------------
 

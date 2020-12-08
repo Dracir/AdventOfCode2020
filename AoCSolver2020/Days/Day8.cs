@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Console = ConsoleManager;
+
 
 
 public class Day8 : DayBase
@@ -11,12 +13,14 @@ public class Day8 : DayBase
 
 	public override void SetUpConsolePart1()
 	{
+		Console.Header.ReserveLines(0);
 	}
-	
+
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
 	{
+		Console.Header.ReserveLines(0);
 	}
 
 	//-----------------------------------------------------------------
