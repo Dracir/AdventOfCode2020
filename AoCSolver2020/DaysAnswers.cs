@@ -21,7 +21,7 @@ public static class DaysAnswers
 	public static long Day7Part1Answer => 1;
 	public static long Day7Part2Answer => 2;
 
-	public static long Day8Part1Answer => 1;
+	public static long Day8Part1Answer => 1859;
 	public static long Day8Part2Answer => 2;
 
 	public static long Day9Part1Answer => 1;

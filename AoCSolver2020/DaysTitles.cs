@@ -7,7 +7,7 @@ public static class DaysTitles
 	public static string Day5 => "Binary Boarding";
 	public static string Day6 => "Custom Customs";
 	public static string Day7 => "Handy Haversacks";
-	public static string Day8 => "";
+	public static string Day8 => "Handheld Halting";
 	public static string Day9 => "";
 	public static string Day10 => "";
 	public static string Day11 => "";

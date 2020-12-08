@@ -8,7 +8,7 @@ namespace AoC2020
 	class Program
 	{
 
-		private static int _currentDay = 7;
+		private static int _currentDay = 8;
 		private static int _currentPart = 2;
 		private static bool _useConsole = true;
 
@@ -16,8 +16,8 @@ namespace AoC2020
 
 		static void Main(string[] args)
 		{
-			YearFileCreator.CreateYear();
-			//	RunSuperConsole();
+			//YearFileCreator.CreateYear();
+			RunSuperConsole();
 		}
 
 		private static void RunSuperConsole()

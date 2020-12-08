@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CodeState
+public struct CodeState
 {
 	public long Accumulator;
-	public long Pointer;
+	public int InstructionPointer;
 
-	public CodeState(long accumulator, long pointer)
+	public CodeState(long accumulator, int instructionPointer)
 	{
 		Accumulator = accumulator;
-		Pointer = pointer;
+		InstructionPointer = instructionPointer;
 	}
 }

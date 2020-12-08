@@ -11,13 +11,14 @@ public class CodeCompiler
 
 		foreach (var instructionLine in input.Split("\n"))
 		{
+			if (string.IsNullOrEmpty(instructionLine)) continue;
 			var lineSplited = instructionLine.Split(" ");
 			var operation = lineSplited[0];
 			var argument = long.Parse(lineSplited[1]);
 			instructions.Add(new CodeInstruction(operation, argument));
 		}
 
-		var initialState = new CodeState(0L, 0L);
+		var initialState = new CodeState(0L, 0);
 		return new CodeProgram(initialState, instructions);
 	}
 }
