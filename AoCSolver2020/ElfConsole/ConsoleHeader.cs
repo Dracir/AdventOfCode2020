@@ -53,7 +53,7 @@ public class ConsoleHeader
 
 	public void ForceNewLine()
 	{
-		CurrentHeaderPointer = new Point(1, CurrentHeaderPointer.Y + 1);
+		CurrentHeaderPointer = new Point(0, CurrentHeaderPointer.Y + 1);
 	}
 
 	private HeaderValue CreateValue(int valueWidth, string title, Func<Point, HeaderValue> createHeader)

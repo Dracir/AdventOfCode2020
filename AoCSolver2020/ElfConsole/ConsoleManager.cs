@@ -32,7 +32,7 @@ public static class ConsoleManager
 	}
 
 
-	public static void WriteLine(string text) => Center.WriteLine(text);
+	public static void WriteLine(string text, ConsoleColor? color = null) => Center.WriteLine(text, color);
 
 	public static void Clear()
 	{

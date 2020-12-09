@@ -100,5 +100,24 @@ namespace AdventOfCode2018
 				yield return (char)('A' + i);
 			}
 		}
+
+
+		//TODO
+		private static (int indexStart, int indexEnd)? FindFirstConsecutivesNumbers(List<int> indexes)
+		{
+			for (int minI = 0; minI < indexes.Count - 1; minI++)
+			{
+				if (indexes[minI + 1] == indexes[minI] + 1)
+				{
+					for (int maxI = minI + 1; maxI < indexes.Count; maxI++)
+					{
+						if (indexes[maxI + 1] > indexes[maxI] + 1)
+							return (minI, maxI - 1);
+					}
+					return (minI, indexes.Count);
+				}
+			}
+			return null;
+		}
 	}
 }

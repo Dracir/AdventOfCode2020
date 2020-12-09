@@ -17,8 +17,11 @@ public class ConsoleCenter
 		_currentLine = 0;
 	}
 
-	public void WriteLine(string text)
+	public void WriteLine(string text, ConsoleColor? color = null)
 	{
+		var colorBefore = Console.ForegroundColor;
+		if (color.HasValue)
+			Console.ForegroundColor = color.Value;
 		var lines = text.Split("\n");
 		foreach (var line in lines)
 		{
@@ -29,6 +32,7 @@ public class ConsoleCenter
 			if (_currentLine >= Lines)
 				_currentLine = 0;
 		}
-
+		if (color.HasValue)
+			Console.ForegroundColor = colorBefore;
 	}
 }
