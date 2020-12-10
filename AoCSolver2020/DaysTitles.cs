@@ -9,7 +9,7 @@ public static class DaysTitles
 	public static string Day7 => "Handy Haversacks";
 	public static string Day8 => "Handheld Halting";
 	public static string Day9 => "Encoding Error";
-	public static string Day10 => "";
+	public static string Day10 => "Adapter Array";
 	public static string Day11 => "";
 	public static string Day12 => "";
 	public static string Day13 => "";

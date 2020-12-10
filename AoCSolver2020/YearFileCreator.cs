@@ -56,26 +56,26 @@ public class Day{DayX} : DayBase
 ";
 
 
-	private static string TestFileText = @"using System.Collections;
-using Xunit;
+	/*	private static string TestFileText = @"using System.Collections;
+	using Xunit;
 
-namespace Test
-{
-	public class Day{DayX}Tests
+	namespace Test
 	{
-		public class Part1
+		public class Day{DayX}Tests
 		{
-			[Fact]
-			public void Input() => Assert.Equal(DaysAnswers.Day{DayX}Part1Answer, new Day{DayX}().Part1(DaysInputs.D{DayX}));
-		}
-		public class Part2
-		{
-			[Fact]
-			public void Input() => Assert.Equal(DaysAnswers.Day{DayX}Part2Answer, new Day{DayX}().Part2(DaysInputs.D{DayX}));
+			public class Part1
+			{
+				[Fact]
+				public void Input() => Assert.Equal(DaysAnswers.Day{DayX}Part1Answer, new Day{DayX}().Part1(DaysInputs.D{DayX}));
+			}
+			public class Part2
+			{
+				[Fact]
+				public void Input() => Assert.Equal(DaysAnswers.Day{DayX}Part2Answer, new Day{DayX}().Part2(DaysInputs.D{DayX}));
+			}
 		}
 	}
-}
-";
+	";*/
 
 	public static void CreateYear()
 	{
