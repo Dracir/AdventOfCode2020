@@ -23,10 +23,10 @@ public class Grid<T> : IGrid<T>
 	public int UsedMaxX => usedMaxX;
 	public int UsedMaxY => usedMaxY;
 
-	public int MinX => OffsetX;
-	public int MinY => OffsetY;
-	public int MaxX => OffsetX + FullWidth - 1;
-	public int MaxY => OffsetY + FullHeight - 1;
+	public int MinX => -OffsetX;
+	public int MinY => -OffsetY;
+	public int MaxX => -OffsetX + FullWidth - 1;
+	public int MaxY => -OffsetY + FullHeight - 1;
 
 	public int FullWidth => Values.GetLength(0);
 	public int FullHeight => Values.GetLength(1);
@@ -83,6 +83,12 @@ public class Grid<T> : IGrid<T>
 			for (int y = usedMinY; y <= usedMaxY; y++)
 				yield return new Point(x, y);
 	}
+	public IEnumerable<(Point Point, T Value)> PointsAndValues()
+	{
+		for (int x = usedMinX; x <= usedMaxX; x++)
+			for (int y = usedMinY; y <= usedMaxY; y++)
+				yield return (new Point(x, y), this[x, y]);
+	}
 
 
 	public IEnumerable<Point> AreaSquareAround(Point pt, int radiusDistance)
@@ -90,13 +96,47 @@ public class Grid<T> : IGrid<T>
 
 		int x1 = Math.Max(usedMinX, pt.X - radiusDistance);
 		int y1 = Math.Max(usedMinY, pt.Y - radiusDistance);
-		int x2 = Math.Max(usedMaxX, pt.X + radiusDistance);
-		int y2 = Math.Max(usedMaxY, pt.Y + radiusDistance);
+		int x2 = Math.Min(usedMaxX, pt.X + radiusDistance);
+		int y2 = Math.Min(usedMaxY, pt.Y + radiusDistance);
 
 		for (int x = x1; x <= x2; x++)
 			for (int y = y1; y <= y2; y++)
 				yield return new Point(x, y);
 	}
+
+
+	public IEnumerable<(Point Point, T Value)> PointAndValuesSquareAround(Point pt, int radiusDistance)
+	{
+
+		int x1 = Math.Max(usedMinX, pt.X - radiusDistance);
+		int y1 = Math.Max(usedMinY, pt.Y - radiusDistance);
+		int x2 = Math.Min(usedMaxX, pt.X + radiusDistance);
+		int y2 = Math.Min(usedMaxY, pt.Y + radiusDistance);
+
+		for (int x = x1; x <= x2; x++)
+			for (int y = y1; y <= y2; y++)
+				yield return (new Point(x, y), this[x, y]);
+	}
+
+
+	public IEnumerable<(Point Point, T Value)> PointAndValuesInDirection(Point pt, int dx, int dy, bool includeStartingPoint)
+	{
+		var x = pt.X;
+		var y = pt.Y;
+		if (!includeStartingPoint)
+		{
+			x += dx;
+			y += dy;
+		}
+
+		while (x >= usedMinX && x <= usedMaxX && y >= usedMinY && y <= usedMaxY)
+		{
+			yield return (new Point(x, y), this[x, y]);
+			x += dx;
+			y += dy;
+		}
+	}
+
 	public IEnumerable<Point> AreaAround(Point pt, int manhattanDistance)
 	{
 

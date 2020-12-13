@@ -32,7 +32,7 @@ public class GrowingGrid<T> : IGrid<T>
 	public int GrowthTimesLeft = 0;
 	public int GrowthTimesUp = 0;
 	public int GrowthTimesDown = 0;
-
+	public int GrowthTimes => GrowthTimesRight + GrowthTimesLeft + GrowthTimesUp + GrowthTimesDown;
 
 	int OffsetX => _grid.OffsetX;
 	int OffsetY => _grid.OffsetY;
@@ -85,16 +85,16 @@ public class GrowingGrid<T> : IGrid<T>
 	{
 		get
 		{
-			var targetX = x + OffsetX;
-			var targetY = y + OffsetY;
+			var targetX = x;
+			var targetY = y;
 			if (_growsOnWrite)
 				GrowIfNeeded(targetX, targetY);
 			return _grid[targetX, targetY];
 		}
 		set
 		{
-			var targetX = x + OffsetX;
-			var targetY = y + OffsetY;
+			var targetX = x;
+			var targetY = y;
 			if (_growsOnWrite)
 				GrowIfNeeded(targetX, targetY);
 			_grid[targetX, targetY] = value;
@@ -105,29 +105,29 @@ public class GrowingGrid<T> : IGrid<T>
 	{
 		var growthNeeded = false;
 		int left = 0, right = 0, top = 0, bottom = 0;
-		if (targetX < 0)
+		if (targetX < _grid.MinX)
 		{
 			growthNeeded = true;
 			GrowthTimesLeft++;
-			left = _growthIncrement;
+			left = _growthIncrement * (int)Math.Ceiling(MathF.Abs(targetX - _grid.MinX) / _growthIncrement);
 		}
-		if (targetX >= FullWidth)
+		if (targetX > _grid.MaxX)
 		{
 			growthNeeded = true;
 			GrowthTimesRight++;
-			right = _growthIncrement;
+			right = _growthIncrement * (int)Math.Ceiling((targetX - _grid.MaxX) * 1f / _growthIncrement);
 		}
-		if (targetY < 0)
+		if (targetY < _grid.MinY)
 		{
 			growthNeeded = true;
 			GrowthTimesDown++;
-			bottom = _growthIncrement;
+			bottom = _growthIncrement * (int)Math.Ceiling(MathF.Abs(targetY - _grid.MinY) / _growthIncrement);
 		}
-		if (targetY >= FullHeight)
+		if (targetY > _grid.MaxY)
 		{
 			growthNeeded = true;
 			GrowthTimesUp++;
-			top = _growthIncrement;
+			top = _growthIncrement * (int)Math.Ceiling((targetY - _grid.MaxY) * 1f / _growthIncrement);
 		}
 		if (growthNeeded)
 			GrowGrid(top, right, bottom, left);
@@ -141,7 +141,7 @@ public class GrowingGrid<T> : IGrid<T>
 
 		for (int x = _grid.MinX; x <= _grid.MaxX; x++)
 			for (int y = _grid.MinY; y <= _grid.MaxY; y++)
-				newGrid[x + left, y + down] = _grid[x, y];
+				newGrid[x, y] = _grid[x, y];
 
 		_grid = newGrid;
 		OnGridGrown?.Invoke(new GrowingGridEvent(this, up, right, down, left));

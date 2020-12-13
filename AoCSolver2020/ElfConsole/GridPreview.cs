@@ -40,7 +40,7 @@ public class GridPreview<T>
 						for (int x = 0; x < GridPreviewWidth; x++)
 						{
 							if (Grid.XInBound(x + Offset.X))
-								line += Grid[x + Offset.X, y + Offset.Y];
+								line += _getTilePreview(Grid[x + Offset.X, y + Offset.Y]);
 							else
 								line += EmptyChar;
 						}

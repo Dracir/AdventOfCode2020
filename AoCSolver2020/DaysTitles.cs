@@ -10,9 +10,9 @@ public static class DaysTitles
 	public static string Day8 => "Handheld Halting";
 	public static string Day9 => "Encoding Error";
 	public static string Day10 => "Adapter Array";
-	public static string Day11 => "";
-	public static string Day12 => "";
-	public static string Day13 => "";
+	public static string Day11 => "Seating System";
+	public static string Day12 => "Rain Risk";
+	public static string Day13 => "Shuttle Search";
 	public static string Day14 => "";
 	public static string Day15 => "";
 	public static string Day16 => "";
