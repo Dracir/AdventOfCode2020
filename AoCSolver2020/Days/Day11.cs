@@ -97,7 +97,7 @@ public class Day11 : DayBase
 
 		while (Step(area, GetDirectionsAdjacentSeats, 5))
 		{
-			_occupiedPreview?.Update();
+			//_occupiedPreview?.Update();
 			//System.Console.ReadLine();
 			//Console.WriteLine("Step");
 			//Console.WriteLine(string.Join(",", GetDirectionsAdjacentSeats(area, new Point(4, 1))));

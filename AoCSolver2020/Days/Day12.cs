@@ -14,14 +14,14 @@ public class Day12 : DayBase
 	public override void SetUpConsolePart1()
 	{
 		Console.Header.ReserveLines(0);
-		/*Console.Header.ReserveLines(30);
+		Console.Header.ReserveLines(30);
 		_gridPreview = new GridPreview<char>(x => x, new RectInt(0, 3, 30, 30));
 		_gridPreview.GetTileColor = c => c switch
 		{
 			'@' => ConsoleColor.Yellow,
 			'~' => ConsoleColor.Blue,
 			_ => ConsoleColor.Gray
-		};*/
+		};
 	}
 
 	//-----------------------------------------------------------------
@@ -92,7 +92,7 @@ public class Day12 : DayBase
 			Console.WriteLine("-> Ship : " + new Point(shipX, shipY) + " - " + direction);
 			if (_gridPreview != null)
 				_gridPreview.Offset = new Point(shipX - _gridPreview.Viewport.Width / 2, shipY - _gridPreview.Viewport.Height / 2);
-			//_gridPreview?.Update();
+			_gridPreview?.Update();
 		}
 		return new Point(shipX, shipY).DistanceManhattan(Point.ZERO);
 	}

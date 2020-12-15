@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class HeaderValue
 {
-	protected Point Position;
+	public readonly Point Position;
 
 	protected HeaderValue(Point position)
 	{

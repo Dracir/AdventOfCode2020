@@ -8,8 +8,8 @@ namespace AoC2020
 	class Program
 	{
 
-		private static int _currentDay = 13;
-		private static int _currentPart = 2;
+		private static int _currentDay = 14;
+		private static int _currentPart = 1;
 		private static bool _useConsole = true;
 
 		private static DayBase[] _days = new DayBase[26];
@@ -18,11 +18,14 @@ namespace AoC2020
 		{
 			//YearFileCreator.CreateYear();
 			RunSuperConsole();
+
 		}
 
 		private static void RunSuperConsole()
 		{
+			System.Console.CursorVisible = false;
 			Console.SetFullScreen();
+			System.Console.CursorVisible = false;
 
 			_days[_currentDay] = NewDay(_currentDay);
 			UpdateHeader(_currentDay, _days[_currentDay], _currentPart);
