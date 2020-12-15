@@ -10,9 +10,11 @@ public class Day14 : DayBase
 {
 
 	private static ulong MAX_VALUE = (2L << 35) - 1;
+	private HeaderValue? _progress;
 	private HeaderValue? _currentValue;
 	private HeaderValue? _currentMask;
 	private HeaderValue? _currentResult;
+	private HeaderValue? _currentMemSize;
 	private HeaderValue? _currentSum;
 
 
@@ -20,21 +22,36 @@ public class Day14 : DayBase
 
 	public override void SetUpConsolePart1()
 	{
-		Console.Header.ReserveLines(4);
-		_currentValue = Console.Header.CreateFormatedValue(60, "Value:   ");
+		Console.Header.ReserveLines(5);
+		_progress = Console.Header.CreateBlockValue(61, "Progress: ", ValueToUTFBars.Styles.Vertical);
 		Console.Header.ForceNewLine();
-		_currentMask = Console.Header.CreateFormatedValue(60, "Mask:    ");
+		_currentValue = Console.Header.CreateFormatedValue(60, "Value   :  ");
 		Console.Header.ForceNewLine();
-		_currentResult = Console.Header.CreateFormatedValue(60, "Result:  ");
+		_currentMask = Console.Header.CreateFormatedValue(60, "Mask    :  ");
 		Console.Header.ForceNewLine();
-		_currentSum = Console.Header.CreateFormatedValue(60, "Sum   :  ");
+		_currentResult = Console.Header.CreateFormatedValue(60, "Result  :  ");
+		Console.Header.ForceNewLine();
+		_currentSum = Console.Header.CreateFormatedValue(60, "Sum     :  ");
 	}
 
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
 	{
-		Console.Header.ReserveLines(0);
+		Console.Header.ReserveLines(6);
+		_progress = Console.Header.CreateBlockValue(60, "Progress :  ", ValueToUTFBars.Styles.Vertical);
+		Console.Header.ForceNewLine();
+		_currentValue = Console.Header.CreateFormatedValue(60, "Adress   :  ");
+		Console.Header.ForceNewLine();
+		_currentMask = Console.Header.CreateFormatedValue(60, "Mask     :  ");
+		Console.Header.ForceNewLine();
+		_currentResult = Console.Header.CreateFormatedValue(60, "Adresses :  ");
+		Console.Header.ForceNewLine();
+		_currentMemSize = Console.Header.CreateFormatedValue(60, "Mem Size :  ");
+		Console.Header.ForceNewLine();
+		_currentSum = Console.Header.CreateFormatedValue(60, "Sum      :  ");
+
+
 	}
 
 	//-----------------------------------------------------------------
@@ -55,14 +72,16 @@ public class Day14 : DayBase
 		var mem = new Dictionary<int, ulong>();
 		var mask = new List<(int Index, int Override)>();
 		var keepGoing = false;
-		foreach (var line in input.Split("\n"))
+
+		var lines = input.Split("\n");
+		for (int i = 0; i < lines.Length; i++)
 		{
+			var line = lines[i];
+			_progress?.SetValue(1f * i / lines.Length);
 			if (line.Contains("mask"))
 			{
 				mask = ParseMask(line);
 				ShowMask(mask, line);
-				//var maskStr = mask.Select(x => $"{x.Index}->{x.Override}").ToList();
-				//Console.WriteLine("New Mask : " + string.Join(",", maskStr));
 			}
 			else
 			{
@@ -72,7 +91,7 @@ public class Day14 : DayBase
 				ShowValue(write.Value, valueMasked, mask);
 				//Console.WriteLine($"Write at {write.Key} value {write.Value}, masked : {valueMasked}");
 				if (_currentSum != null)
-					_currentSum.SetValue(((long)mem.Select(x => (long)x.Value).Sum()).ToString("0000000000000000000000000"));
+					_currentSum.SetValue(((long)mem.Select(x => (long)x.Value).Sum()).ToString());
 			}
 			if (!keepGoing)
 			{
@@ -81,6 +100,7 @@ public class Day14 : DayBase
 			}
 
 		}
+		_progress?.SetValue(1f);
 		return (long)mem.Select(x => (long)x.Value).Sum();
 	}
 
@@ -88,7 +108,6 @@ public class Day14 : DayBase
 	{
 		if (_currentValue != null && _currentResult != null)
 		{
-
 			var strValue = Convert.ToString((long)value, 2).PadLeft(36, '0');
 			var strValueMasked = Convert.ToString((long)valueMasked, 2).PadLeft(36, '0');
 			_currentValue.SetValue(strValue + $"  (decimal {(long)value})");
@@ -164,7 +183,114 @@ public class Day14 : DayBase
 
 	public override long Part2(string input)
 	{
-		return 0;
+		var mem = new Dictionary<long, ulong>();
+		var maskStr = "";
+		var keepGoing = false;
+
+		var lines = input.Split("\n");
+		for (int i = 0; i < lines.Length; i++)
+		{
+			var line = lines[i];
+			_progress?.SetValue(1f * i / lines.Length);
+			if (line.Contains("mask"))
+			{
+				maskStr = line.Substring(7);
+				_currentMask?.SetValue(maskStr);
+			}
+			else
+			{
+				var write = ParseWrite(line);
+				var adressMask = MaskValueVersion2((ulong)write.Key, maskStr);
+				var adresses = GetAdressesFromMask(adressMask);
+				ShowValueVersion2((ulong)write.Key, adressMask, maskStr, adresses);
+
+				foreach (var adress in adresses)
+					mem[Convert.ToInt64(adress, 2)] = write.Value;
+
+				_currentMemSize?.SetValue(mem.Count);
+
+				if (_currentSum != null)
+					_currentSum.SetValue(((long)mem.Select(x => (long)x.Value).Sum()).ToString());
+			}
+			if (!keepGoing)
+			{
+				if (Console.ReadKey().Key == ConsoleKey.Enter)
+					keepGoing = true;
+			}
+
+		}
+		_progress?.SetValue(1f);
+		return (long)mem.Select(x => (long)x.Value).Sum();
 	}
 
+	private List<string> GetAdressesFromMask(string maskStr)
+	{
+		var adresses = new List<string>();
+
+		var firstX = maskStr.IndexOf('X');
+		if (firstX == -1)
+		{
+			adresses.Add(maskStr);
+			return adresses;
+		}
+		else
+		{
+			var c = maskStr.ToCharArray();
+			c[firstX] = '0';
+			adresses.AddRange(GetAdressesFromMask(new string(c)));
+			c = maskStr.ToCharArray();
+			c[firstX] = '1';
+			adresses.AddRange(GetAdressesFromMask(new string(c)));
+		}
+
+		return adresses;
+	}
+
+	private string MaskValueVersion2(ulong value, string mask)
+	{
+		var adresses = Convert.ToString((long)value, 2).PadLeft(36, '0').ToArray();
+		for (int i = 0; i < 36; i++)
+		{
+			if (mask[i] == '1' && adresses[i] == '0')
+				adresses[i] = '1';
+			else if (mask[i] == 'X')
+				adresses[i] = 'X';
+		}
+		return new string(adresses);
+	}
+
+
+	private void ShowValueVersion2(ulong value, string valueMasked, string mask, List<string> adresses)
+	{
+		if (_currentValue != null && _currentResult != null)
+		{
+			var strValue = Convert.ToString((long)value, 2).PadLeft(36, '0');
+			_currentValue.SetValue(strValue + $"  (decimal {(long)value})");
+			_currentResult.SetValue(valueMasked + $"  ({adresses.Count} posibilities)");
+
+			var c = System.Console.ForegroundColor;
+			System.Console.ForegroundColor = ConsoleColor.White;
+			for (int i = 0; i < 36; i++)
+			{
+				var x = _currentResult.Position.X + i;
+				if (mask[i] == '1' && strValue[i] == '0')
+				{
+					if (valueMasked[i] != '1')
+						System.Console.ForegroundColor = ConsoleColor.Red;
+					else
+						System.Console.ForegroundColor = ConsoleColor.White;
+					Console.WriteAt(valueMasked[i], x, _currentResult.Position.Y);
+				}
+				else if (mask[i] == 'X')
+				{
+					if (valueMasked[i] != 'X')
+						System.Console.ForegroundColor = ConsoleColor.Red;
+					else
+						System.Console.ForegroundColor = ConsoleColor.White;
+					Console.WriteAt('X', x, _currentResult.Position.Y);
+				}
+			}
+			System.Console.ForegroundColor = c;
+		}
+	}
 }
