@@ -14,7 +14,7 @@ public class Day15 : DayBase
 	{
 		Console.Header.ReserveLines(0);
 	}
-	
+
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
@@ -31,13 +31,62 @@ public class Day15 : DayBase
 	//-----------------------------------------------------------------
 
 	public override bool Equals(object? obj) => base.Equals(obj);
-	public override int GetHashCode()=> base.GetHashCode();
+	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------
 
 	public override long Part1(string input)
 	{
+
+		AssertTest(1, "0,3,6", 10);
+		//AssertTest(1, "1,3,2", 10);
+		/*AssertTest(10, "2,1,3", 2020);
+		AssertTest(27, "1,2,3", 2020);
+		AssertTest(78, "2,3,1", 2020);
+		AssertTest(438, "3,2,1", 2020);
+		AssertTest(1836, "3,1,2", 2020);*/
+
 		return 0;
+	}
+
+
+	private void AssertTest(long expected, string numbers, int turns)
+	{
+		var res = PlayGame(InputParser.ListOfInts(numbers), turns);
+		var col = expected != res ? ConsoleColor.Red : ConsoleColor.Green;
+		var error = "";
+		if (expected < res) error = " - Actual is too BIG";
+		else if (expected > res) error = " - Actual is too SMALL";
+		Console.WriteLine($"{numbers} - Expected : {expected} - Actual : {res} {error}", col);
+	}
+
+	private long PlayGame(int[] numbers, int turns)
+	{
+		var memory = new Dictionary<int, int>();
+		for (int i = 1; i <= numbers.Length; i++)
+		{
+			Console.WriteLine($"Turn {i} - {numbers[i - 1]}");
+			memory.Add(numbers[i - 1], i);
+		}
+
+		var last = numbers[^1];
+		for (int i = numbers.Length + 1; i < turns; i++)
+		{
+			Console.WriteLine($"Turn {i} - Last {last} at turn {memory?[last]}");
+			if (memory.ContainsKey(last))
+				last = i - 1 - memory[last];
+			else
+				last = 0;
+
+			if (!memory.ContainsKey(last))
+				memory.Add(last, 0);
+
+			memory[last] = i;
+
+			Console.WriteLine($"{last}");
+		}
+
+		return last;
 	}
 
 	//-----------------------------------------------------------------

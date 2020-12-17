@@ -8,7 +8,7 @@ namespace AoC2020
 	class Program
 	{
 
-		private static int _currentDay = 14;
+		private static int _currentDay = 16;
 		private static int _currentPart = 2;
 		private static bool _useConsole = true;
 
