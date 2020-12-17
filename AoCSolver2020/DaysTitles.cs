@@ -14,7 +14,7 @@ public static class DaysTitles
 	public static string Day12 => "Rain Risk";
 	public static string Day13 => "Shuttle Search";
 	public static string Day14 => "Docking Data";
-	public static string Day15 => "";
+	public static string Day15 => "Rambunctious Recitation";
 	public static string Day16 => "";
 	public static string Day17 => "";
 	public static string Day18 => "";
