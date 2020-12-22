@@ -36,5 +36,5 @@ public struct Point
 
 	public override int GetHashCode() => HashCode.Combine(X, Y);
 
-	public override string ToString() => $"Points({X}, {Y})";
+	public override string ToString() => $"({X}, {Y})";
 }

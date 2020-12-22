@@ -43,6 +43,13 @@ public static class InputParser
 		return new RangeInt(Int32.Parse(split[0]), Int32.Parse(split[1]));
 	}
 
+	//Exemple
+	//..##.......
+	//#...#...#..
+	//.#....#..#.
+	//..#.#...#.#
+	//.#...##..#.
+	// trueCharacter = #
 	public static bool[,] ParseBoolGrid(string input, char separator, char trueCharacter)
 	{
 		var lines = input.Split(separator);
