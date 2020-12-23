@@ -101,7 +101,7 @@ public class Day22 : DayBase
 		p1Deck.AddRange(playerCards.P1);
 		p2Deck.AddRange(playerCards.P2);
 
-		PlayGame(p1Deck, p2Deck);
+		PlayGame(p1Deck, p2Deck, false);
 
 		int score = 0;
 		var winnerDeck = (p1Deck.Count == 0) ? p2Deck : p1Deck;
@@ -113,28 +113,33 @@ public class Day22 : DayBase
 		return score;
 	}
 
-	private static int PlayGame(List<int> p1Deck, List<int> p2Deck)
+	private static int GameIndex = 1;
+
+	private static int PlayGame(List<int> p1Deck, List<int> p2Deck, bool print)
 	{
 		var p1DeckHistory = new List<int[]>();
 		var p2DeckHistory = new List<int[]>();
-		p1DeckHistory.Add(p1Deck.ToArray());
-		p2DeckHistory.Add(p2Deck.ToArray());
+
 		var comparer = new ArrayByValueComparer();
 
-		int round = 1;
+		var round = 1;
+
 		while (p1Deck.Count != 0 && p2Deck.Count != 0)
 		{
-			var topP1 = p1Deck.First();
-			p1Deck.RemoveAt(0);
-			var topP2 = p2Deck.First();
-			p2Deck.RemoveAt(0);
-
-			if (p1DeckHistory.Contains(p1Deck.ToArray(), comparer)
-					|| p2DeckHistory.Contains(p2Deck.ToArray(), comparer))
+			if (p1DeckHistory.Contains(p1Deck.ToArray(), comparer) && p2DeckHistory.Contains(p2Deck.ToArray(), comparer))
 			{
-				Console.WriteLine("SAME!");
+				if (print)
+					Console.WriteLine($"Player 1 WIN game {GameIndex}because of history!");
 				return 1;
 			}
+
+			p1DeckHistory.Add(p1Deck.ToArray());
+			p2DeckHistory.Add(p2Deck.ToArray());
+
+			var topP1 = p1Deck.First();
+			var topP2 = p2Deck.First();
+			p1Deck.RemoveAt(0);
+			p2Deck.RemoveAt(0);
 
 			p1DeckHistory.Add(p1Deck.ToArray());
 			p2DeckHistory.Add(p2Deck.ToArray());
@@ -142,7 +147,11 @@ public class Day22 : DayBase
 			var playerWinner = 0;
 
 			if (p1Deck.Count >= topP1 && p2Deck.Count >= topP2)
-				playerWinner = PlayGame(p1Deck.ToArray().ToList(), p2Deck.ToArray().ToList());
+			{
+				if (print)
+					Console.WriteLine($"Lets start a sub game {GameIndex++} with\nP1: {p1Deck.GetPrintStr<int>()}\nP2: {p2Deck.GetPrintStr<int>()}");
+				playerWinner = PlayGame(p1Deck.Take(topP1).ToArray().ToList(), p2Deck.Take(topP2).ToArray().ToList(), print);
+			}
 			else
 				playerWinner = (topP1 > topP2) ? 1 : 2;
 
@@ -156,10 +165,8 @@ public class Day22 : DayBase
 				p2Deck.Add(topP2);
 				p2Deck.Add(topP1);
 			}
-			p1DeckHistory.Add(p1Deck.ToArray());
-			p2DeckHistory.Add(p2Deck.ToArray());
 
-			var outputStr = $"--Round {round} -\n"
+			var outputStr = $"--Round {round++} -\n"
 				+ $"Player 1's deck: {p1Deck.GetPrintStr()}\n"
 				+ $"Player 2's deck: {p2Deck.GetPrintStr()}\n"
 				+ $"Player 1 plays: {topP1}\n"
@@ -167,6 +174,8 @@ public class Day22 : DayBase
 				+ $"Player {((topP1 > topP2) ? "1" : "2")} wins the round!\n\n";
 			//Console.WriteLine(outputStr);
 		}
+		if (print)
+			Console.WriteLine($"Player {((p1Deck.Count == 0) ? "2" : "1")} WIN game {GameIndex}!");
 		return (p1Deck.Count == 0) ? 2 : 1;
 	}
 }
