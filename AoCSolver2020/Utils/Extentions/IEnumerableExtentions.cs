@@ -103,6 +103,11 @@ public static class IEnumerableExtentions
 		}
 	}
 
+	public static string GetPrintStr<T>(this IEnumerable<T> enumeration)
+	{
+		return $"[{string.Join(",", enumeration.Select(x => x.ToString()))}]";
+	}
+
 
 	//TODO
 	private static (int indexStart, int indexEnd)? FindFirstConsecutivesNumbers(List<int> indexes)
