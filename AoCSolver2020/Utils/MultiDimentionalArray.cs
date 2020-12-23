@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 public class MultiDimentionalArray<Value>
 {
-	private Dictionary<int[], Value> _values = new Dictionary<int[], Value>(new MultiDimentionalArrayEqualityComparer());
+	private Dictionary<int[], Value> _values = new Dictionary<int[], Value>(new ArrayByValueComparer());
 	public Value DefaultValue;
 
 	private int[] _minKeyValues;
@@ -96,38 +96,39 @@ public class MultiDimentionalArray<Value>
 			}
 		}
 	}
+}
 
-	public class MultiDimentionalArrayEqualityComparer : IEqualityComparer<int[]>
+
+public class ArrayByValueComparer : IEqualityComparer<int[]>
+{
+	public bool Equals(int[] x, int[] y) => AreEquals(x, y);
+
+	public static bool AreEquals(int[] x, int[] y)
 	{
-		public bool Equals(int[] x, int[] y)
+		if (x.Length != y.Length)
 		{
-			if (x.Length != y.Length)
+			return false;
+		}
+		for (int i = 0; i < x.Length; i++)
+		{
+			if (x[i] != y[i])
 			{
 				return false;
 			}
-			for (int i = 0; i < x.Length; i++)
-			{
-				if (x[i] != y[i])
-				{
-					return false;
-				}
-			}
-			return true;
 		}
-
-		public int GetHashCode(int[] obj)
-		{
-			int result = 17;
-			for (int i = 0; i < obj.Length; i++)
-			{
-				unchecked
-				{
-					result = result * 23 + obj[i];
-				}
-			}
-			return result;
-		}
+		return true;
 	}
 
+	public int GetHashCode(int[] obj)
+	{
+		int result = 17;
+		for (int i = 0; i < obj.Length; i++)
+		{
+			unchecked
+			{
+				result = result * 23 + obj[i];
+			}
+		}
+		return result;
+	}
 }
-

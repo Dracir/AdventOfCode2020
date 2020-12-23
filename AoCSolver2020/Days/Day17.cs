@@ -64,7 +64,7 @@ public class Day17 : DayBase
 
 	private static void DoCycle(ConwayGrid3D grid)
 	{
-		var comparer = new MultiDimentionalArray<bool>.MultiDimentionalArrayEqualityComparer();
+		var comparer = new ArrayByValueComparer();
 		int nbActives = grid.PointsAndValues().Where(x => x.Value.before).Count();
 		Console.WriteLine($"Actives : {nbActives}, Size: [{string.Join(",", grid.Size)}]");
 
@@ -115,7 +115,7 @@ public class Day17 : DayBase
 
 	private static void DoCycle(ConwayGrid4D grid)
 	{
-		var comparer = new MultiDimentionalArray<bool>.MultiDimentionalArrayEqualityComparer();
+		var comparer = new ArrayByValueComparer();
 		int nbActives = grid.PointsAndValues().Where(x => x.Value.before).Count();
 		Console.WriteLine($"Actives : {nbActives}, Size: [{string.Join(",", grid.Size)}]");
 
