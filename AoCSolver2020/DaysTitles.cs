@@ -22,7 +22,7 @@ public static class DaysTitles
 	public static string Day20 => "Jurassic Jigsaw";
 	public static string Day21 => "Allergen Assessment";
 	public static string Day22 => "Crab Combat";
-	public static string Day23 => "";
+	public static string Day23 => "Crab Cups";
 	public static string Day24 => "";
 	public static string Day25 => "";
 

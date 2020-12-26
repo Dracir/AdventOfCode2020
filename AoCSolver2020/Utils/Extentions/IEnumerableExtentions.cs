@@ -53,9 +53,9 @@ public static class IEnumerableExtentions
 		return enumeration.Aggregate(enumeration.First(), (currMax, x) => selector(currMax) < selector(x) ? x : currMax);
 	}
 
-	public static (T, int) FirstBy<T>(this IEnumerable<T> enumeration, Func<T, bool> selector)
+	public static (int Index, T Value) FirstBy<T>(this IEnumerable<T> enumeration, Func<T, bool> selector)
 	{
-		return enumeration.Select((x, i) => (x, i)).First(x => selector(x.x));
+		return enumeration.Select((x, i) => (i, x)).First(x => selector(x.x));
 
 	}
 

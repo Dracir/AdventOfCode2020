@@ -28,7 +28,7 @@ public static class DaysInputs
 	public static string D24 => ReadInput(24);
 	public static string D25 => ReadInput(25);
 
-	public static string ReadInput(int day) => File.ReadAllText($"DaysInput/Day{day}.txt");
-	public static string ReadInput(string fileName) => File.ReadAllText($"DaysInput/{fileName}.txt");
+	public static string ReadInput(int day) => File.ReadAllText($"DaysInput/Day{day}.txt").Replace('\r', '\n');
+	public static string ReadInput(string fileName) => File.ReadAllText($"DaysInput/{fileName}.txt").Replace('\r', '\n');
 
 }
