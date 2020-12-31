@@ -47,7 +47,7 @@ public class GrowingGrid<T> : IGrid<T>
 	public bool YInBound(int y) => _grid.YInBound(y);
 	public bool PointInBound(Point pt) => _grid.PointInBound(pt);
 
-	public Action<GrowingGridEvent>? OnGridGrown;
+	public Action<GrowingGridEvent> OnGridGrown;
 
 	public GrowingGrid(T defaultValue, Point xRange, Point yRange, int growthIncrement, bool growsOnRead = true, bool growsOnWrite = true)
 	{

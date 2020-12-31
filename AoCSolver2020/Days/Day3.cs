@@ -7,10 +7,10 @@ using Console = ConsoleManager;
 
 public class Day3 : DayBase
 {
-	char[,]? _inputGrid;
-	private GridPreview<char>[]? _gridRenderer;
-	private HeaderValue[]? _treeHit;
-	private HeaderValue? _progress;
+	char[,] _inputGrid;
+	private GridPreview<char>[] _gridRenderer;
+	private HeaderValue[] _treeHit;
+	private HeaderValue _progress;
 	private int _rowToDo;
 
 	//-----------------------------------------------------------------
@@ -65,7 +65,7 @@ public class Day3 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}
@@ -174,8 +174,8 @@ public class Day3 : DayBase
 	public class Solver
 	{
 		GrowingGrid<char> Grid;
-		GridPreview<char>? Renderer;
-		HeaderValue? TreeHitHeader;
+		GridPreview<char> Renderer;
+		HeaderValue TreeHitHeader;
 
 		int x = 0;
 		int y = 0;
@@ -186,7 +186,7 @@ public class Day3 : DayBase
 
 		Point _direction;
 
-		public Solver(GrowingGrid<char> grid, GridPreview<char>? renderer, HeaderValue? treeHitHeader, Point direction)
+		public Solver(GrowingGrid<char> grid, GridPreview<char> renderer, HeaderValue treeHitHeader, Point direction)
 		{
 			_totalHeight = grid.FullHeight;
 			Grid = grid;

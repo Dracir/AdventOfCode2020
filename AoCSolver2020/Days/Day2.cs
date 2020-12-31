@@ -27,7 +27,7 @@ public class Day2 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}

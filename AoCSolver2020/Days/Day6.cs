@@ -30,7 +30,7 @@ public class Day6 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}

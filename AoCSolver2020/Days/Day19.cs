@@ -14,7 +14,7 @@ public class Day19 : DayBase
 	{
 		Console.Header.ReserveLines(0);
 	}
-	
+
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart2()
@@ -30,8 +30,8 @@ public class Day19 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj) => base.Equals(obj);
-	public override int GetHashCode()=> base.GetHashCode();
+	public override bool Equals(object obj) => base.Equals(obj);
+	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------
 

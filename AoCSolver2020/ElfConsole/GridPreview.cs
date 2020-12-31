@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class GridPreview<T>
 {
 	public RectInt Viewport;
-	public IGrid<T>? Grid;
+	public IGrid<T> Grid;
 	private Func<T, char> _getTilePreview;
-	public Func<T, ConsoleColor>? GetTileColor;
+	public Func<T, ConsoleColor> GetTileColor;
 	public char EmptyChar = ' ';
 	public Point Offset;
 

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class FormatedHeaderValue : HeaderValue
 {
 	private int Width;
-	private string? Format;
+	private string Format;
 
-	public FormatedHeaderValue(Point position, int width, string? format = null) : base(position)
+	public FormatedHeaderValue(Point position, int width, string format = null) : base(position)
 	{
 		Width = width;
 		Format = format;

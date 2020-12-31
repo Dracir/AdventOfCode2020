@@ -23,7 +23,7 @@ public static class DaysTitles
 	public static string Day21 => "Allergen Assessment";
 	public static string Day22 => "Crab Combat";
 	public static string Day23 => "Crab Cups";
-	public static string Day24 => "";
+	public static string Day24 => "Lobby Layout";
 	public static string Day25 => "Combo Breaker";
 
 	public static string GetDayTitle(int day) => day switch

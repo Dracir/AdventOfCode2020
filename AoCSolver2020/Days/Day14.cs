@@ -10,12 +10,12 @@ public class Day14 : DayBase
 {
 
 	private static ulong MAX_VALUE = (2L << 35) - 1;
-	private HeaderValue? _progress;
-	private HeaderValue? _currentValue;
-	private HeaderValue? _currentMask;
-	private HeaderValue? _currentResult;
-	private HeaderValue? _currentMemSize;
-	private HeaderValue? _currentSum;
+	private HeaderValue _progress;
+	private HeaderValue _currentValue;
+	private HeaderValue _currentMask;
+	private HeaderValue _currentResult;
+	private HeaderValue _currentMemSize;
+	private HeaderValue _currentSum;
 
 
 	//-----------------------------------------------------------------
@@ -62,7 +62,7 @@ public class Day14 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj) => base.Equals(obj);
+	public override bool Equals(object obj) => base.Equals(obj);
 	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------

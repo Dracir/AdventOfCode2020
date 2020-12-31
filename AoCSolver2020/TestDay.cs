@@ -10,15 +10,15 @@ public class TestDay : DayBase
 {
 
 	static Random RandomGen = new Random();
-	private HeaderValue? _itteration;
-	private HeaderValue? _aFloat;
-	private HeaderValue? _aFormatedFloat;
-	private HeaderValue? _percent1;
-	private HeaderValue? _percent2;
-	private HeaderValue? _percent3;
-	private HeaderValue? _percent4;
-	private HeaderValue? _percent5;
-	private HeaderValue? _percent6;
+	private HeaderValue _itteration;
+	private HeaderValue _aFloat;
+	private HeaderValue _aFormatedFloat;
+	private HeaderValue _percent1;
+	private HeaderValue _percent2;
+	private HeaderValue _percent3;
+	private HeaderValue _percent4;
+	private HeaderValue _percent5;
+	private HeaderValue _percent6;
 
 	//-----------------------------------------------------------------
 
@@ -59,7 +59,7 @@ public class TestDay : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}

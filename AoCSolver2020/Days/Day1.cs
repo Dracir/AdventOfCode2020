@@ -8,7 +8,7 @@ using Console = ConsoleManager;
 public class Day1 : DayBase
 {
 
-	private HeaderValue? _itteration;
+	private HeaderValue _itteration;
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart1()
@@ -33,7 +33,7 @@ public class Day1 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}

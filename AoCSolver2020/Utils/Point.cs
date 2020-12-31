@@ -25,7 +25,7 @@ public struct Point
 		return Math.Abs(X - p2.X) + Math.Abs(Y - p2.Y);
 	}
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return obj is Point other &&
 			   other.X == X && other.Y == Y;

@@ -30,7 +30,7 @@ public class Day21 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj) => base.Equals(obj);
+	public override bool Equals(object obj) => base.Equals(obj);
 	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------
@@ -40,7 +40,7 @@ public class Day21 : DayBase
 		var foods = ParseFoods(input);
 		var allAllergens = foods.SelectMany(x => x.Allergens).Distinct();
 		var allIngredients = foods.SelectMany(x => x.Ingredients).Distinct();
-		
+
 		return 0;
 	}
 

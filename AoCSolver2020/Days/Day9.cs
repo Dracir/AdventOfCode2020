@@ -7,9 +7,9 @@ using Console = ConsoleManager;
 
 public class Day9 : DayBase
 {
-	private HeaderValue? _progress;
-	private HeaderValue? _currentIndex;
-	private HeaderValue? _preamble;
+	private HeaderValue _progress;
+	private HeaderValue _currentIndex;
+	private HeaderValue _preamble;
 	//-----------------------------------------------------------------
 
 	public override void SetUpConsolePart1()
@@ -38,7 +38,7 @@ public class Day9 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj) => base.Equals(obj);
+	public override bool Equals(object obj) => base.Equals(obj);
 	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------

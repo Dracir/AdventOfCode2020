@@ -19,7 +19,7 @@ public class Node
 {
 	public string Name;
 	public int Quantity;
-	public Node? Parent;
+	public Node Parent;
 	public List<Node> Children = new List<Node>();
 
 	public Node(string name, int quantity = 1)

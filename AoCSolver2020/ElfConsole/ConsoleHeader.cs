@@ -82,7 +82,7 @@ public class ConsoleHeader
 		return headerValue;
 	}
 
-	public HeaderValue CreateFormatedValue(int valueWidth, string title, string? format = null)
+	public HeaderValue CreateFormatedValue(int valueWidth, string title, string format = null)
 	{
 		return CreateValue(valueWidth, title,
 		(position) => new FormatedHeaderValue(position, valueWidth, format));

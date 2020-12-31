@@ -8,7 +8,7 @@ using Console = ConsoleManager;
 public class Day5 : DayBase
 {
 
-	private HeaderValue? _progress;
+	private HeaderValue _progress;
 	private Point PlaneOffset = new Point(3, 4);
 
 	//-----------------------------------------------------------------
@@ -35,7 +35,7 @@ public class Day5 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}

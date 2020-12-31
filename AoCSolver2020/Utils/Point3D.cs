@@ -19,7 +19,7 @@ public struct Point3D
 		return Math.Abs(X - p2.X) + Math.Abs(Y - p2.Y) + Math.Abs(Z - p2.Z);
 	}
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return obj is Point3D other &&
 			   other.X == X && other.Y == Y && other.Z == Z;

@@ -30,7 +30,7 @@ public class Day15 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj) => base.Equals(obj);
+	public override bool Equals(object obj) => base.Equals(obj);
 	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------
@@ -75,7 +75,7 @@ public class Day15 : DayBase
 		{
 			if (print)
 				Console.WriteLine($"Turn {i} - Last {last} at turn {memory?[last]}");
-			if (memory.ContainsKey(last) && memory[last].Old != -1)
+			if (!memory.ContainsKey(last) && memory[last].Old != -1)
 				last = memory[last].Recent - memory[last].Old;
 			else
 				last = 0;

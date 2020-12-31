@@ -7,7 +7,7 @@ using Console = ConsoleManager;
 
 public class Day12 : DayBase
 {
-	GridPreview<char>? _gridPreview;
+	GridPreview<char> _gridPreview;
 
 	//-----------------------------------------------------------------
 
@@ -39,7 +39,7 @@ public class Day12 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj) => base.Equals(obj);
+	public override bool Equals(object obj) => base.Equals(obj);
 	public override int GetHashCode() => base.GetHashCode();
 
 	//-----------------------------------------------------------------

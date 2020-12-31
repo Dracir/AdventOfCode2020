@@ -27,7 +27,7 @@ public class Day4 : DayBase
 
 	//-----------------------------------------------------------------
 
-	public override bool Equals(object? obj)
+	public override bool Equals(object obj)
 	{
 		return base.Equals(obj);
 	}
@@ -46,11 +46,11 @@ public class Day4 : DayBase
 		public int? IssueYear;
 		public int? ExpirationYear;
 		public int? Height;
-		public string? HeightUnit;
-		public string? HairColor;
-		public string? EyeColor;
-		public string? PassportID;
-		public string? CountryID;
+		public string HeightUnit;
+		public string HairColor;
+		public string EyeColor;
+		public string PassportID;
+		public string CountryID;
 
 		public Passport(Dictionary<string, string> entries)
 		{
