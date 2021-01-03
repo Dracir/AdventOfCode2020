@@ -143,11 +143,24 @@ public class Day17 : DayBase
 		{
 		}
 
+		public new(bool before, bool after) this[int[] key]
+		{
+			get => base[key];
+			set => base[key] = value;
+		}
+
 	}
+
 	public class ConwayGrid4D : MultiDimentionalArray<(bool before, bool after)>
 	{
 		public ConwayGrid4D() : base((false, false), 4)
 		{
+		}
+
+		public new(bool before, bool after) this[int[] key]
+		{
+			get => base[key];
+			set => base[key] = value;
 		}
 
 	}

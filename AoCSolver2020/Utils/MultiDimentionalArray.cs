@@ -14,6 +14,8 @@ public class MultiDimentionalArray<Value>
 	private int[] _minKeyValues;
 	private int[] _maxKeyValues;
 
+	public bool CreateOnGet;
+
 	public int[] Size
 	{
 		get
@@ -24,6 +26,8 @@ public class MultiDimentionalArray<Value>
 			return size;
 		}
 	}
+
+	public bool KeyExist(int[] key) => _values.ContainsKey(key);
 
 	public MultiDimentionalArray(Value defaultValue, int startingDimentions)
 	{
@@ -75,12 +79,17 @@ public class MultiDimentionalArray<Value>
 	}
 
 
-	public Value this[int[] key]
+	protected virtual Value this[int[] key]
 	{
 		get
 		{
 			if (_values.ContainsKey(key))
 				return _values[key];
+			else if (CreateOnGet)
+			{
+				this[key] = DefaultValue;
+				return _values[key];
+			}
 			else
 				return DefaultValue;
 		}

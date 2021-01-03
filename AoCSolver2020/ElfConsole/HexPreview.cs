@@ -12,8 +12,8 @@ public class HexPreview<T>
 	public Point Offset;
 	public bool ReverseY;
 
-	private int GridUsedWidth => HexMap == null ? 0 : HexMap.UsedWidth;
-	private int GridUsedHeight => HexMap == null ? 0 : HexMap.UsedHeight;
+	private int GridUsedWidth => HexMap == null ? 0 : HexMap.Width;
+	private int GridUsedHeight => HexMap == null ? 0 : HexMap.Height;
 
 	private int GridPreviewWidth => Math.Min(GridUsedWidth, Viewport.Width);
 	private int GridPreviewHeight => Math.Min(GridUsedHeight, Viewport.Height);
@@ -43,7 +43,7 @@ public class HexPreview<T>
 						for (int x = 0; x < Viewport.Width / 2; x++)
 						{
 							if (HexMap.XInBound(x + Offset.X))
-								line += _getTilePreview(HexMap[x + Offset.X, y + Offset.Y].Value);
+								line += _getTilePreview(HexMap[x + Offset.X, y + Offset.Y]);
 							else
 								line += EmptyChar;
 						}
@@ -56,7 +56,7 @@ public class HexPreview<T>
 						{
 							if (HexMap.XInBound(col + Offset.X))
 							{
-								var tile = HexMap[col + Offset.X, y + Offset.Y].Value;
+								var tile = HexMap[col + Offset.X, y + Offset.Y];
 								Console.ForegroundColor = GetTileColor(tile);
 								BetterConsole.WriteAt(_getTilePreview(tile), 1 + oddOffset + col * 2 + Viewport.X, drawRow + Viewport.Y);
 							}
