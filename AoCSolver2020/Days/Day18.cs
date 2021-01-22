@@ -73,8 +73,6 @@ public class Day18 : DayBase
 		var last = node.GetChildren().LastOrDefault();
 		foreach (var child in node.GetChildren())
 			PrettyPrint(child, indent, child == last);
-
-
 	}
 
 	//-----------------------------------------------------------------
